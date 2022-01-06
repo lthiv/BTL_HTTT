@@ -5,6 +5,10 @@
  */
 package btl_chandoanbenh;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -177,7 +181,7 @@ public class MainFrm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jCheckBox1.setText("Vàng da, mắt");
+        jCheckBox1.setText("Vàng da; mắt");
 
         jCheckBox2.setText("Gia đình có người bị bệnh gan");
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -615,7 +619,7 @@ public class MainFrm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Tư vấn", jPanel1);
 
-        jCheckBox21.setText("Vàng da, mắt");
+        jCheckBox21.setText("Vàng da; mắt");
 
         jCheckBox22.setText("Gia đình có người bị bệnh gan");
         jCheckBox22.addActionListener(new java.awt.event.ActionListener() {
@@ -634,15 +638,15 @@ public class MainFrm extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox24.setText("Mệt mỏi, chán ăn, rối loạn tiêu hóa");
+        jCheckBox24.setText("Mệt mỏi; chán ăn; rối loạn tiêu hóa");
 
-        jCheckBox25.setText("Đau bụng, nôn mửa");
+        jCheckBox25.setText("Đau bụng; nôn mửa");
 
         jCheckBox26.setText("Bụng phình");
 
         jCheckBox27.setText("Chân phù nề");
 
-        jCheckBox28.setText("Ngứa da, mề đay, mụn nhọt");
+        jCheckBox28.setText("Ngứa da; mề đay; mụn nhọt");
 
         jCheckBox29.setText("Sốt nhẹ");
         jCheckBox29.addActionListener(new java.awt.event.ActionListener() {
@@ -751,11 +755,6 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel53.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel53.setText("Kết luận chẩn đoán");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "item1" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(jList1);
 
         jLabel54.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1230,10 +1229,12 @@ public class MainFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        jButton3.setActionCommand("");
         String rule = addRules();
-        rule += "=>"+ jTextField13.getText();
-        DefaultListModel<String> list = new DefaultListModel<>();
+        rule += "=>" + jTextField13.getText();
+//        DefaultListModel<String> list = new DefaultListModel<>();
+        DefaultListModel list = new DefaultListModel();
         list.addElement(rule);
-        jList1 = new JList<>(list);
+        jList1.setModel(list);
+        writeToFile(rule);
         System.out.println(rule);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -1289,68 +1290,68 @@ public class MainFrm extends javax.swing.JFrame {
     private String addRules() {
         String rule = "";
         if (jCheckBox21.isSelected()) {
-            rule += jCheckBox21.getText() + "&";
+            rule += jCheckBox21.getText() + ",";
         }
         if (jCheckBox24.isSelected()) {
-            rule += jCheckBox24.getText() + "&";
+            rule += jCheckBox24.getText() + ",";
         }
         if (jCheckBox27.isSelected()) {
-            rule += jCheckBox27.getText() + "&";
+            rule += jCheckBox27.getText() + ",";
         }
         if (jCheckBox23.isSelected()) {
-            rule += jCheckBox23.getText() + "&";
+            rule += jCheckBox23.getText() + ",";
         }
         if (jCheckBox31.isSelected()) {
-            rule += jCheckBox31.getText() + "&";
+            rule += jCheckBox31.getText() + ",";
         }
         if (jCheckBox25.isSelected()) {
-            rule += jCheckBox25.getText() + "&";
+            rule += jCheckBox25.getText() + ",";
         }
         if (jCheckBox26.isSelected()) {
-            rule += jCheckBox26.getText() + "&";
+            rule += jCheckBox26.getText() + ",";
         }
         if (jCheckBox28.isSelected()) {
-            rule += jCheckBox28.getText() + "&";
+            rule += jCheckBox28.getText() + ",";
         }
         if (jCheckBox29.isSelected()) {
-            rule += jCheckBox29.getText() + "&";
+            rule += jCheckBox29.getText() + ",";
         }
         if (jCheckBox30.isSelected()) {
-            rule += jCheckBox30.getText() + "&";
+            rule += jCheckBox30.getText() + ",";
         }
         if (jCheckBox22.isSelected()) {
-            rule += jCheckBox22.getText() + "&";
+            rule += jCheckBox22.getText() + ",";
         }
         if (jCheckBox32.isSelected()) {
-            rule += jCheckBox32.getText() + "&";
+            rule += jCheckBox32.getText() + ",";
         }
-        if (buttonGroup1.getSelection().getActionCommand() != null) {
-            rule = rule + buttonGroup1.getSelection().getActionCommand() + "&";
+        if (buttonGroup1.getSelection() != null) {
+            rule = rule + buttonGroup1.getSelection().getActionCommand() + ",";
         }
-        if (buttonGroup2.getSelection().getActionCommand() != null) {
-            rule = rule + buttonGroup2.getSelection().getActionCommand() + "&";
+        if (buttonGroup2.getSelection() != null) {
+            rule = rule + buttonGroup2.getSelection().getActionCommand() + ",";
         }
-        if (buttonGroup4.getSelection().getActionCommand() != null) {
-            rule = rule + buttonGroup4.getSelection().getActionCommand() + "&";
+        if (buttonGroup4.getSelection() != null) {
+            rule = rule + buttonGroup4.getSelection().getActionCommand() + ",";
         }
 
         if (jTextField7.getText() != null) {
             int valAST = Integer.parseInt(jTextField7.getText());
             String gender = jComboBox8.getSelectedItem().toString();
             if (gender.equals("Nữ") && valAST < 35) {
-                rule += "AST bình thường&";
+                rule += "AST bình thường,";
             } else if (gender.equals("Nam") && valAST < 50) {
-                rule += "AST bình thường&";
+                rule += "AST bình thường,";
             } else if (gender.equals("Nữ") && valAST >= 35 && valAST <= 100) {
                 rule += "AST tăng nhẹ&";
             } else if (gender.equals("Nam") && valAST >= 50 && valAST <= 100) {
-                rule += "AST tăng nhẹ&";
+                rule += "AST tăng nhẹ,";
             } else if (jCheckBox40.getText().equals("Trẻ em") && valAST >= 60 && valAST <= 100) {
-                rule += "AST tăng nhẹ&";
+                rule += "AST tăng nhẹ,";
             } else if (valAST >= 100 && valAST <= 300) {
-                rule += "AST tăng vừa&";
+                rule += "AST tăng vừa,";
             } else if (valAST >= 3000) {
-                rule += "AST tăng cao&";
+                rule += "AST tăng cao,";
             }
         }
 
@@ -1358,31 +1359,31 @@ public class MainFrm extends javax.swing.JFrame {
             int valALT = Integer.parseInt(jTextField8.getText());
             String gender = jComboBox8.getSelectedItem().toString();
             if (gender.equals("Nữ") && valALT < 19) {
-                rule += "ALT bình thường&";
+                rule += "ALT bình thường,";
             } else if (gender.equals("Nam") && valALT < 30) {
-                rule += "ALT bình thường&";
+                rule += "ALT bình thường,";
             } else if (valALT <= 100) {
-                rule += "ALT tăng nhẹ&";
+                rule += "ALT tăng nhẹ,";
             } else if (valALT >= 3000) {
-                rule += "ALT tăng cao&";
+                rule += "ALT tăng cao,";
             }
         }
 
         if (!jTextField9.getText().equals("")) {
             double valBilirubinGT = Double.parseDouble(jTextField9.getText());
             if (valBilirubinGT >= 0.1 && valBilirubinGT <= 1.0) {
-                rule += "Bilirubin GT bình thường&";
+                rule += "Bilirubin GT bình thường,";
             } else if (valBilirubinGT > 1.0) {
-                rule += "Bilirubin GT cao&";
+                rule += "Bilirubin GT cao,";
             }
         }
 
         if (!jTextField10.getText().equals("")) {
             double valBilirubinTT = Double.parseDouble(jTextField10.getText());
             if (valBilirubinTT >= 0 && valBilirubinTT <= 0.4) {
-                rule += "Bilirubin TT bình thường&";
+                rule += "Bilirubin TT bình thường,";
             } else if (valBilirubinTT > 0.4) {
-                rule += "Bilirubin TT cao&";
+                rule += "Bilirubin TT cao,";
             }
         }
 
@@ -1392,15 +1393,15 @@ public class MainFrm extends javax.swing.JFrame {
             if ((age.equals("0-4 tháng") && valAlbumin < 2.0)
                     || (age.equals("4-6 tháng") && valAlbumin < 3.2)
                     || (age.equals("16 tuổi") && valAlbumin < 3.5)) {
-                rule += "Albumin thấp&";
+                rule += "Albumin thấp,";
             } else if ((age.equals("0-4 tháng") && valAlbumin >= 2.0 && valAlbumin <= 4.5)
                     || (age.equals("4-6 tháng") && valAlbumin >= 3.2 && valAlbumin <= 5.2)
                     || (age.equals("16 tuổi") && valAlbumin >= 3.5 && valAlbumin <= 4.8)) {
-                rule += "Albumin bình thường&";
+                rule += "Albumin bình thường,";
             } else if ((age.equals("0-4 tháng") && valAlbumin > 4.5)
                     || (age.equals("4-6 tháng") && valAlbumin > 5.2)
                     || (age.equals("16 tuổi") && valAlbumin > 4.8)) {
-                rule += "Albumin cao&";
+                rule += "Albumin cao,";
             }
 
         }
@@ -1411,18 +1412,33 @@ public class MainFrm extends javax.swing.JFrame {
         String HbeAg = jComboBox12.getSelectedItem().toString();
         String Anti_HCV = jComboBox13.getSelectedItem().toString();
         String HCV_RNA = jComboBox14.getSelectedItem().toString();
-        rule += HbeAg + "&" + Anti_HBc_IgM + "&" + Anti_HBc_IgG + "&" + HbeAg + "&" + Anti_HCV + "&" + HCV_RNA +"&";
-        
-        if(!jTextField12.getText().equals("")){
+        rule += HbeAg + "," + Anti_HBc_IgM + "," + Anti_HBc_IgG + "," + HbeAg + "," + Anti_HCV + "," + HCV_RNA + ",";
+
+        if (!jTextField12.getText().equals("")) {
             int valTieuCau = Integer.parseInt(jTextField12.getText());
-            if(valTieuCau < 150000){
+            if (valTieuCau < 150000) {
                 rule += "Tiểu cầu thấp";
-            }
-            else if(valTieuCau >= 150000 && valTieuCau <= 450000){
+            } else if (valTieuCau >= 150000 && valTieuCau <= 450000) {
                 rule += "Tiểu cầu bình thường";
             }
         }
         return rule;
+    }
+
+    private void writeToFile(String rule) {
+        String fileName = "rule.csv";
+        String header = "";
+        try {
+            FileWriter fileWriter;
+            fileWriter = new FileWriter(fileName);
+            fileWriter.append(rule);
+            fileWriter.append("\n");
+            System.out.println("Add rule success!");
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
