@@ -5,15 +5,12 @@
  */
 package btl_chandoanbenh;
 
-
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import utils.IOFile;
 
 /**
@@ -24,77 +21,88 @@ public class MainFrm extends javax.swing.JFrame {
 
     ArrayList<String> rulesListInput;
     String factsResult;
-    
+    DefaultListModel listModel;
+
     public MainFrm() {
         initComponents();
-        
+        listModel = new DefaultListModel();
         rulesListInput = IOFile.readFromFile("rules.csv");
         for (String item : rulesListInput) {
             System.out.println(item);
         }
-        
+//        showAllRule();
+
     }
-    
-    void getButtonGroupSuDungDoUongCon(){
+
+//    void showAllRule() {
+//        rulesListInput = IOFile.readFromFile("rules.csv");
+//        listModel = new DefaultListModel();
+//        for (String item : rulesListInput) {
+//            listModel.addElement(item);
+//        }
+//        jList1.setModel(listModel);
+//    }
+
+    void getButtonGroupSuDungDoUongCon() {
         String facts = convertSelectionToString();
         compareRules(facts);
     }
-    
-    String convertSelectionToString(){
+
+    String convertSelectionToString() {
         String facts = "";
-        
+
         String gender = congender.getSelectedItem().toString();
-        
+
         // bieu hien
-        if(con1.isSelected()){
+        if (con1.isSelected()) {
             facts += con1.getActionCommand() + ",";
         }
-        if(con2.isSelected()){
+        if (con2.isSelected()) {
             facts += con2.getActionCommand() + ",";
         }
-        if(con3.isSelected()){
+        if (con3.isSelected()) {
             facts += con3.getActionCommand() + ",";
         }
-        if(con4.isSelected()){
+        if (con4.isSelected()) {
             facts += con4.getActionCommand() + ",";
         }
-        if(con5.isSelected()){
+        if (con5.isSelected()) {
             facts += con5.getActionCommand() + ",";
         }
-        if(con6.isSelected()){
+        if (con6.isSelected()) {
             facts += con6.getActionCommand() + ",";
         }
-        if(con7.isSelected()){
+        if (con7.isSelected()) {
             facts += con7.getActionCommand() + ",";
         }
-        if(con8.isSelected()){
+        if (con8.isSelected()) {
             facts += con8.getActionCommand() + ",";
         }
-        if(con9.isSelected()){
+        if (con9.isSelected()) {
             facts += con9.getActionCommand() + ",";
         }
-        if(con10.isSelected()){
+        if (con10.isSelected()) {
             facts += con10.getActionCommand() + ",";
         }
-        if(con11.isSelected()){
+        if (con11.isSelected()) {
             facts += con11.getActionCommand() + ",";
         }
-        if(con12.isSelected()){
+        if (con12.isSelected()) {
             facts += con12.getActionCommand() + ",";
         }
-        
-        if(btnGroupDoUongCon.getSelection() != null){
+
+        if (btnGroupDoUongCon.getSelection() != null) {
             facts += "Su dung do uong co con " + btnGroupDoUongCon.getSelection().getActionCommand() + ",";
         }
-        
-        if(btnGroupThoiGianUong.getSelection() != null){
+
+        if (btnGroupThoiGianUong.getSelection() != null) {
             facts += "Thoi gian uong " + btnGroupThoiGianUong.getSelection().getActionCommand() + ",";
         }
-        
-        if(btnGroupCachThucUong.getSelection() != null){
+
+        if (btnGroupCachThucUong.getSelection() != null) {
             facts += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
         }
-        
+
         // xet nghiem
         String xn1Val = xn1.getText().trim();
         String xn2Val = xn2.getText().trim();
@@ -108,7 +116,7 @@ public class MainFrm extends javax.swing.JFrame {
         String xn10Val = xn10.getSelectedItem().toString();
         String xn11Val = xn11.getSelectedItem().toString();
         String xn12Val = xn12.getText().trim();
-        
+
         float ast = Float.parseFloat(xn1Val);
         float alt = Float.parseFloat(xn2Val);
         float bilGT = Float.parseFloat(xn3Val);
@@ -117,65 +125,63 @@ public class MainFrm extends javax.swing.JFrame {
         int tieucau = Integer.valueOf(xn12Val);
 
         // ast
-        if((ast < 35.0 && gender.equalsIgnoreCase("Nu")) || (ast < 50.0 && gender.equalsIgnoreCase("Nam")) || (ast < 60.0 && gender.equalsIgnoreCase("Tre em"))){
+        if ((ast < 35.0 && gender.equalsIgnoreCase("Nu")) || (ast < 50.0 && gender.equalsIgnoreCase("Nam")) || (ast < 60.0 && gender.equalsIgnoreCase("Tre em"))) {
             xn1Val = "Binh thuong";
         }
-        if(ast < 100.0){
+        if (ast < 100.0) {
             xn1Val = "Tang nhe";
         }
-        if(ast < 300.0){
+        if (ast < 300.0) {
             xn1Val = "Tang vua";
         }
-        if(ast >= 300){
+        if (ast >= 300) {
             xn1Val = "Tang cao";
         }
 
         // alt
-        if((alt < 19.0 && gender.equalsIgnoreCase("Nu")) || (alt < 30.0 && gender.equalsIgnoreCase("Nam")) || (alt < 40.0 && gender.equalsIgnoreCase("Tre em"))){
+        if ((alt < 19.0 && gender.equalsIgnoreCase("Nu")) || (alt < 30.0 && gender.equalsIgnoreCase("Nam")) || (alt < 40.0 && gender.equalsIgnoreCase("Tre em"))) {
             xn2Val = "Binh thuong";
         }
-        if(alt < 100.0){
+        if (alt < 100.0) {
             xn2Val = "Tang nhe";
         }
-        if(alt < 300.0){
+        if (alt < 300.0) {
             xn2Val = "Tang vua";
         }
-        if(alt >= 300){
+        if (alt >= 300) {
             xn2Val = "Tang cao";
         }
 
         // bil GT
-        if(bilGT < 1.0){
+        if (bilGT < 1.0) {
             xn3Val = "Binh thuong";
         }
-        if(bilGT >= 1.0){
+        if (bilGT >= 1.0) {
             xn3Val = "Cao";
         }
 
         // bil TT
-        if(bilTT < 0.4){
+        if (bilTT < 0.4) {
             xn4Val = "Binh thuong";
         }
-        if(bilTT >=0.4){
+        if (bilTT >= 0.4) {
             xn4Val = "Cao";
         }
 
         //albumin
-        if((albumin < 3.5 && gender.equalsIgnoreCase("Nu")) || (albumin < 3.5 && gender.equalsIgnoreCase("Nam")) || (albumin < 3.2 && gender.equalsIgnoreCase("Tre em"))){
+        if ((albumin < 3.5 && gender.equalsIgnoreCase("Nu")) || (albumin < 3.5 && gender.equalsIgnoreCase("Nam")) || (albumin < 3.2 && gender.equalsIgnoreCase("Tre em"))) {
             xn5Val = "Thap";
-        }
-        else if((albumin < 4.8 && gender.equalsIgnoreCase("Nu")) || (albumin < 4.8 && gender.equalsIgnoreCase("Nam")) || (albumin < 4.5 && gender.equalsIgnoreCase("Tre em"))){
+        } else if ((albumin < 4.8 && gender.equalsIgnoreCase("Nu")) || (albumin < 4.8 && gender.equalsIgnoreCase("Nam")) || (albumin < 4.5 && gender.equalsIgnoreCase("Tre em"))) {
             xn5Val = "Binh thuong";
-        }
-        else {
+        } else {
             xn5Val = "Cao";
         }
 
         // tieu cau
-        if(tieucau < 150000){
+        if (tieucau < 150000) {
             xn12Val = "Thap";
         }
-        if(tieucau >= 150000){
+        if (tieucau >= 150000) {
             xn12Val = "Binh thuong";
         }
 
@@ -183,19 +189,19 @@ public class MainFrm extends javax.swing.JFrame {
 
         return facts;
     }
-    
-    void compareRules(String facts){
+
+    void compareRules(String facts) {
         String result = "";
-        for(String rule : rulesListInput){
+        for (String rule : rulesListInput) {
             int ruleResultIdx = rule.lastIndexOf(",");
             String ruleResult = rule.substring(ruleResultIdx + 1).trim(); // lay sau dau ,
-            if(rule.equalsIgnoreCase(facts)){
+            if (rule.equalsIgnoreCase(facts)) {
                 // do something
                 taFactsResult.setText(ruleResult);
                 return;
             }
         }
-        
+
         taFactsResult.setText("Nhập thêm thông tin để tư vấn");
     }
 
@@ -349,7 +355,7 @@ public class MainFrm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        con1.setText("Vàng da, mắt");
+        con1.setText("Vàng da; mắt");
 
         con11.setText("Gia đình có người bị bệnh gan");
 
@@ -895,6 +901,11 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         jButton4.setText("Xóa");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel53.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel53.setText("Kết luận chẩn đoán");
@@ -1400,7 +1411,7 @@ public class MainFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton14ActionPerformed
 
     private void jRadioButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton15ActionPerformed
-       jRadioButton15.setActionCommand("> 3 nam");
+        jRadioButton15.setActionCommand("> 3 nam");
     }//GEN-LAST:event_jRadioButton15ActionPerformed
 
     private void jRadioButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton16ActionPerformed
@@ -1416,6 +1427,21 @@ public class MainFrm extends javax.swing.JFrame {
         System.out.println("input: " + facts);
         compareRules(facts);
     }//GEN-LAST:event_bnTuVanActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        listModel.removeElementAt(jList1.getSelectedIndex());
+        ArrayList<String> ls = new ArrayList<>();
+        for (int i = 0; i < jList1.getModel().getSize(); i++) {
+            String item = jList1.getModel().getElementAt(i);
+            ls.add(item);
+        }
+        try {
+            utils.IOFile.writeFromFile("rules.csv",ls);
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private String addRules() {
         String rule = "";
