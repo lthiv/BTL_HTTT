@@ -21,16 +21,14 @@ public class MainFrm extends javax.swing.JFrame {
 
     ArrayList<String> rulesListInput;
     String factsResult;
+
+    boolean coKetQuaXetNghiem = false;
     DefaultListModel listModel;
 
     public MainFrm() {
         initComponents();
         listModel = new DefaultListModel();
-        rulesListInput = IOFile.readFromFile("rules.csv");
-        for (String item : rulesListInput) {
-            System.out.println(item);
-        }
-//        showAllRule();
+        rulesListInput = IOFile.readFromFile("rules.txt");
 
     }
 
@@ -42,12 +40,6 @@ public class MainFrm extends javax.swing.JFrame {
 //        }
 //        jList1.setModel(listModel);
 //    }
-
-    void getButtonGroupSuDungDoUongCon() {
-        String facts = convertSelectionToString();
-        compareRules(facts);
-    }
-
     String convertSelectionToString() {
         String facts = "";
 
@@ -103,90 +95,92 @@ public class MainFrm extends javax.swing.JFrame {
             facts += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
         }
 
-        // xet nghiem
-        String xn1Val = xn1.getText().trim();
-        String xn2Val = xn2.getText().trim();
-        String xn3Val = xn3.getText().trim();
-        String xn4Val = xn4.getText().trim();
-        String xn5Val = xn5.getText().trim();
-        String xn6Val = xn6.getSelectedItem().toString();
-        String xn7Val = xn7.getSelectedItem().toString();
-        String xn8Val = xn8.getSelectedItem().toString();
-        String xn9Val = xn9.getSelectedItem().toString();
-        String xn10Val = xn10.getSelectedItem().toString();
-        String xn11Val = xn11.getSelectedItem().toString();
-        String xn12Val = xn12.getText().trim();
+        if (coKetQuaXetNghiem) {
+            // xet nghiem
+            String xn1Val = xn1.getText().trim();
+            String xn2Val = xn2.getText().trim();
+            String xn3Val = xn3.getText().trim();
+            String xn4Val = xn4.getText().trim();
+            String xn5Val = xn5.getText().trim();
+            String xn6Val = xn6.getSelectedItem().toString();
+            String xn7Val = xn7.getSelectedItem().toString();
+            String xn8Val = xn8.getSelectedItem().toString();
+            String xn9Val = xn9.getSelectedItem().toString();
+            String xn10Val = xn10.getSelectedItem().toString();
+            String xn11Val = xn11.getSelectedItem().toString();
+            String xn12Val = xn12.getText().trim();
 
-        float ast = Float.parseFloat(xn1Val);
-        float alt = Float.parseFloat(xn2Val);
-        float bilGT = Float.parseFloat(xn3Val);
-        float bilTT = Float.parseFloat(xn4Val);
-        float albumin = Float.parseFloat(xn5Val);
-        int tieucau = Integer.valueOf(xn12Val);
+            float ast = Float.parseFloat(xn1Val);
+            float alt = Float.parseFloat(xn2Val);
+            float bilGT = Float.parseFloat(xn3Val);
+            float bilTT = Float.parseFloat(xn4Val);
+            float albumin = Float.parseFloat(xn5Val);
+            int tieucau = Integer.valueOf(xn12Val);
 
-        // ast
-        if ((ast < 35.0 && gender.equalsIgnoreCase("Nu")) || (ast < 50.0 && gender.equalsIgnoreCase("Nam")) || (ast < 60.0 && gender.equalsIgnoreCase("Tre em"))) {
-            xn1Val = "Binh thuong";
-        }
-        if (ast < 100.0) {
-            xn1Val = "Tang nhe";
-        }
-        if (ast < 300.0) {
-            xn1Val = "Tang vua";
-        }
-        if (ast >= 300) {
-            xn1Val = "Tang cao";
-        }
+            // ast
+            if ((ast < 35.0 && gender.equalsIgnoreCase("Nu")) || (ast < 50.0 && gender.equalsIgnoreCase("Nam")) || (ast < 60.0 && gender.equalsIgnoreCase("Tre em"))) {
+                xn1Val = "Binh thuong";
+            }
+            if (ast < 100.0) {
+                xn1Val = "Tang nhe";
+            }
+            if (ast < 300.0) {
+                xn1Val = "Tang vua";
+            }
+            if (ast >= 300) {
+                xn1Val = "Tang cao";
+            }
 
-        // alt
-        if ((alt < 19.0 && gender.equalsIgnoreCase("Nu")) || (alt < 30.0 && gender.equalsIgnoreCase("Nam")) || (alt < 40.0 && gender.equalsIgnoreCase("Tre em"))) {
-            xn2Val = "Binh thuong";
-        }
-        if (alt < 100.0) {
-            xn2Val = "Tang nhe";
-        }
-        if (alt < 300.0) {
-            xn2Val = "Tang vua";
-        }
-        if (alt >= 300) {
-            xn2Val = "Tang cao";
-        }
+            // alt
+            if ((alt < 19.0 && gender.equalsIgnoreCase("Nu")) || (alt < 30.0 && gender.equalsIgnoreCase("Nam")) || (alt < 40.0 && gender.equalsIgnoreCase("Tre em"))) {
+                xn2Val = "Binh thuong";
+            }
+            if (alt < 100.0) {
+                xn2Val = "Tang nhe";
+            }
+            if (alt < 300.0) {
+                xn2Val = "Tang vua";
+            }
+            if (alt >= 300) {
+                xn2Val = "Tang cao";
+            }
 
-        // bil GT
-        if (bilGT < 1.0) {
-            xn3Val = "Binh thuong";
-        }
-        if (bilGT >= 1.0) {
-            xn3Val = "Cao";
-        }
+            // bil GT
+            if (bilGT < 1.0) {
+                xn3Val = "Binh thuong";
+            }
+            if (bilGT >= 1.0) {
+                xn3Val = "Cao";
+            }
 
-        // bil TT
-        if (bilTT < 0.4) {
-            xn4Val = "Binh thuong";
-        }
-        if (bilTT >= 0.4) {
-            xn4Val = "Cao";
-        }
+            // bil TT
+            if (bilTT < 0.4) {
+                xn4Val = "Binh thuong";
+            }
+            if (bilTT >= 0.4) {
+                xn4Val = "Cao";
+            }
 
-        //albumin
-        if ((albumin < 3.5 && gender.equalsIgnoreCase("Nu")) || (albumin < 3.5 && gender.equalsIgnoreCase("Nam")) || (albumin < 3.2 && gender.equalsIgnoreCase("Tre em"))) {
-            xn5Val = "Thap";
-        } else if ((albumin < 4.8 && gender.equalsIgnoreCase("Nu")) || (albumin < 4.8 && gender.equalsIgnoreCase("Nam")) || (albumin < 4.5 && gender.equalsIgnoreCase("Tre em"))) {
-            xn5Val = "Binh thuong";
-        } else {
-            xn5Val = "Cao";
-        }
+            //albumin
+            if ((albumin < 3.5 && gender.equalsIgnoreCase("Nu")) || (albumin < 3.5 && gender.equalsIgnoreCase("Nam")) || (albumin < 3.2 && gender.equalsIgnoreCase("Tre em"))) {
+                xn5Val = "Thap";
+            } else if ((albumin < 4.8 && gender.equalsIgnoreCase("Nu")) || (albumin < 4.8 && gender.equalsIgnoreCase("Nam")) || (albumin < 4.5 && gender.equalsIgnoreCase("Tre em"))) {
+                xn5Val = "Binh thuong";
+            } else {
+                xn5Val = "Cao";
+            }
 
-        // tieu cau
-        if (tieucau < 150000) {
-            xn12Val = "Thap";
-        }
-        if (tieucau >= 150000) {
-            xn12Val = "Binh thuong";
-        }
+            // tieu cau
+            if (tieucau < 150000) {
+                xn12Val = "Thap";
+            }
+            if (tieucau >= 150000) {
+                xn12Val = "Binh thuong";
+            }
 
-        facts += xn1Val + "," + xn2Val + "," + xn3Val + "," + xn4Val + "," + xn5Val + "," + xn6Val + "," + xn7Val + "," + xn8Val + "," + xn9Val + "," + xn10Val + "," + xn11Val + "," + xn12Val;
+            facts += xn1Val + "," + xn2Val + "," + xn3Val + "," + xn4Val + "," + xn5Val + "," + xn6Val + "," + xn7Val + "," + xn8Val + "," + xn9Val + "," + xn10Val + "," + xn11Val + "," + xn12Val;
 
+        }
         return facts;
     }
 
@@ -217,6 +211,7 @@ public class MainFrm extends javax.swing.JFrame {
         buttonGroup6 = new javax.swing.ButtonGroup();
         buttonGroup7 = new javax.swing.ButtonGroup();
         buttonGroup8 = new javax.swing.ButtonGroup();
+        btnGroupXetNghiem = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         con1 = new javax.swing.JCheckBox();
@@ -281,6 +276,8 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel57 = new javax.swing.JLabel();
         jRadioButton16 = new javax.swing.JRadioButton();
         jRadioButton17 = new javax.swing.JRadioButton();
+        selectXetNghiem = new javax.swing.JRadioButton();
+        selectKhongXetNghiem = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jCheckBox21 = new javax.swing.JCheckBox();
@@ -519,6 +516,23 @@ public class MainFrm extends javax.swing.JFrame {
             }
         });
 
+        btnGroupXetNghiem.add(selectXetNghiem);
+        selectXetNghiem.setText("có");
+        selectXetNghiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectXetNghiemActionPerformed(evt);
+            }
+        });
+
+        btnGroupXetNghiem.add(selectKhongXetNghiem);
+        selectKhongXetNghiem.setSelected(true);
+        selectKhongXetNghiem.setText("không");
+        selectKhongXetNghiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectKhongXetNghiemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -633,7 +647,12 @@ public class MainFrm extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel7)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(selectXetNghiem)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(selectKhongXetNghiem))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel16)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -718,8 +737,11 @@ public class MainFrm extends javax.swing.JFrame {
                             .addComponent(jLabel57)
                             .addComponent(jRadioButton16)
                             .addComponent(jRadioButton17))))
-                .addGap(23, 23, 23)
-                .addComponent(jLabel7)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(selectXetNghiem)
+                    .addComponent(selectKhongXetNghiem))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -1437,11 +1459,19 @@ public class MainFrm extends javax.swing.JFrame {
             ls.add(item);
         }
         try {
-            utils.IOFile.writeFromFile("rules.csv",ls);
+            utils.IOFile.writeFromFile("rules.csv", ls);
         } catch (IOException ex) {
             Logger.getLogger(MainFrm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void selectXetNghiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectXetNghiemActionPerformed
+        coKetQuaXetNghiem = true;
+    }//GEN-LAST:event_selectXetNghiemActionPerformed
+
+    private void selectKhongXetNghiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectKhongXetNghiemActionPerformed
+        coKetQuaXetNghiem = false;
+    }//GEN-LAST:event_selectKhongXetNghiemActionPerformed
 
     private String addRules() {
         String rule = "";
@@ -1637,6 +1667,7 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroupCachThucUong;
     private javax.swing.ButtonGroup btnGroupDoUongCon;
     private javax.swing.ButtonGroup btnGroupThoiGianUong;
+    private javax.swing.ButtonGroup btnGroupXetNghiem;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup5;
     private javax.swing.ButtonGroup buttonGroup6;
@@ -1763,6 +1794,8 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JRadioButton selectKhongXetNghiem;
+    private javax.swing.JRadioButton selectXetNghiem;
     private javax.swing.JTextArea taFactsResult;
     private javax.swing.JTextField xn1;
     private javax.swing.JComboBox<String> xn10;
