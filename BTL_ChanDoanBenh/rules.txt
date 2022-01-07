@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-dau bung,dau dau,buon non,chan an
-=======
 Vang da; mat,
 Phan nhat mau,
 Nuoc tieu sam mau,
@@ -4096,4 +4093,3 @@ Vang da; mat,Phan nhat mau,Met moi; chan an; roi loan tieu hoa,Dau bung; non mua
 Vang da; mat,Nuoc tieu sam mau,Met moi; chan an; roi loan tieu hoa,Dau bung; non mua,Chan phu ne,Bung phinh,Ngua da; me day; mun nhot,Sot nhe,Dau tuc hay kho chiu vung gan (vung bung ben phai),Gia dinh co nguoi bi benh gan,Tung truyen mau,
 Phan nhat mau,Nuoc tieu sam mau,Met moi; chan an; roi loan tieu hoa,Dau bung; non mua,Chan phu ne,Bung phinh,Ngua da; me day; mun nhot,Sot nhe,Dau tuc hay kho chiu vung gan (vung bung ben phai),Gia dinh co nguoi bi benh gan,Tung truyen mau,
 Vang da; mat,Phan nhat mau,Nuoc tieu sam mau,Met moi; chan an; roi loan tieu hoa,Dau bung; non mua,Chan phu ne,Bung phinh,Ngua da; me day; mun nhot,Sot nhe,Dau tuc hay kho chiu vung gan (vung bung ben phai),Gia dinh co nguoi bi benh gan,Tung truyen mau,
->>>>>>> 6509e055ca0c2496004601b8d2505141a3a67d1f
