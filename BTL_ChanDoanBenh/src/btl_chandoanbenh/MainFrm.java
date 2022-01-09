@@ -32,6 +32,25 @@ public class MainFrm extends javax.swing.JFrame {
 
     }
 
+    void disableGroupUongCon() {
+        btnGroupThoiGianUong.clearSelection();
+        btnGroupCachThucUong.clearSelection();
+
+        ruou1.setEnabled(false);
+        ruou2.setEnabled(false);
+        ruou3.setEnabled(false);
+        ruou4.setEnabled(false);
+        ruou5.setEnabled(false);
+    }
+
+    void enableGroupUongCon() {
+        ruou1.setEnabled(true);
+        ruou2.setEnabled(true);
+        ruou3.setEnabled(true);
+        ruou4.setEnabled(true);
+        ruou5.setEnabled(true);
+    }
+
 //    void showAllRule() {
 //        rulesListInput = IOFile.readFromFile("rules.csv");
 //        listModel = new DefaultListModel();
@@ -40,6 +59,7 @@ public class MainFrm extends javax.swing.JFrame {
 //        }
 //        jList1.setModel(listModel);
 //    }
+    // bieu hien nguoi dung chon
     String convertSelectionToString() {
         String facts = "";
 
@@ -95,108 +115,165 @@ public class MainFrm extends javax.swing.JFrame {
             facts += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
         }
 
-        if (coKetQuaXetNghiem) {
-            // xet nghiem
-            String xn1Val = xn1.getText().trim();
-            String xn2Val = xn2.getText().trim();
-            String xn3Val = xn3.getText().trim();
-            String xn4Val = xn4.getText().trim();
-            String xn5Val = xn5.getText().trim();
-            String xn6Val = xn6.getSelectedItem().toString();
-            String xn7Val = xn7.getSelectedItem().toString();
-            String xn8Val = xn8.getSelectedItem().toString();
-            String xn9Val = xn9.getSelectedItem().toString();
-            String xn10Val = xn10.getSelectedItem().toString();
-            String xn11Val = xn11.getSelectedItem().toString();
-            String xn12Val = xn12.getText().trim();
+        return facts;
+    }
 
-            float ast = Float.parseFloat(xn1Val);
-            float alt = Float.parseFloat(xn2Val);
-            float bilGT = Float.parseFloat(xn3Val);
-            float bilTT = Float.parseFloat(xn4Val);
-            float albumin = Float.parseFloat(xn5Val);
-            int tieucau = Integer.valueOf(xn12Val);
+    // ket qua xet nghiem
+    String xuLyKetQuaXetNghiem() {
+        String facts = "";
 
-            // ast
-            if ((ast < 35.0 && gender.equalsIgnoreCase("Nu")) || (ast < 50.0 && gender.equalsIgnoreCase("Nam")) || (ast < 60.0 && gender.equalsIgnoreCase("Tre em"))) {
-                xn1Val = "Binh thuong";
-            }
-            if (ast < 100.0) {
-                xn1Val = "Tang nhe";
-            }
-            if (ast < 300.0) {
-                xn1Val = "Tang vua";
-            }
-            if (ast >= 300) {
-                xn1Val = "Tang cao";
-            }
+        String gender = congender.getSelectedItem().toString();
 
-            // alt
-            if ((alt < 19.0 && gender.equalsIgnoreCase("Nu")) || (alt < 30.0 && gender.equalsIgnoreCase("Nam")) || (alt < 40.0 && gender.equalsIgnoreCase("Tre em"))) {
-                xn2Val = "Binh thuong";
-            }
-            if (alt < 100.0) {
-                xn2Val = "Tang nhe";
-            }
-            if (alt < 300.0) {
-                xn2Val = "Tang vua";
-            }
-            if (alt >= 300) {
-                xn2Val = "Tang cao";
-            }
+        // xet nghiem
+        String astVal = xn1.getText().trim();
+        String xn2Val = xn2.getText().trim();
+        String xn3Val = xn3.getText().trim();
+        String xn4Val = xn4.getText().trim();
+        String xn5Val = xn5.getText().trim();
+        String hbsag = xn6.getSelectedItem().toString();
+        String antihbcigm = xn7.getSelectedItem().toString();
+        String antihbcigg = xn8.getSelectedItem().toString();
+        String hbeag = xn9.getSelectedItem().toString();
+        String antihcv = xn10.getSelectedItem().toString();
+        String hcvrna = xn11.getSelectedItem().toString();
+        String xn12Val = xn12.getText().trim();
 
-            // bil GT
-            if (bilGT < 1.0) {
-                xn3Val = "Binh thuong";
-            }
-            if (bilGT >= 1.0) {
-                xn3Val = "Cao";
-            }
+        float ast, alt, bilGT, bilTT, albumin, fiboE, fiboCAP;
+        int tieucau;
+        int tuoi;
 
-            // bil TT
-            if (bilTT < 0.4) {
-                xn4Val = "Binh thuong";
-            }
-            if (bilTT >= 0.4) {
-                xn4Val = "Cao";
-            }
+        try {
+            tuoi = Integer.valueOf(inpTuoi.getText().trim());
+            ast = Float.parseFloat(astVal);
+            alt = Float.parseFloat(xn2Val);
+            bilGT = Float.parseFloat(xn3Val);
+            bilTT = Float.parseFloat(xn4Val);
+            albumin = Float.parseFloat(xn5Val);
+            tieucau = Integer.valueOf(xn12Val);
+            fiboE = Float.parseFloat(fbE.getText().trim());
+            fiboCAP = Float.parseFloat(fbCAP.getText().trim());
 
-            //albumin
-            if ((albumin < 3.5 && gender.equalsIgnoreCase("Nu")) || (albumin < 3.5 && gender.equalsIgnoreCase("Nam")) || (albumin < 3.2 && gender.equalsIgnoreCase("Tre em"))) {
-                xn5Val = "Thap";
-            } else if ((albumin < 4.8 && gender.equalsIgnoreCase("Nu")) || (albumin < 4.8 && gender.equalsIgnoreCase("Nam")) || (albumin < 4.5 && gender.equalsIgnoreCase("Tre em"))) {
-                xn5Val = "Binh thuong";
-            } else {
-                xn5Val = "Cao";
-            }
-
-            // tieu cau
-            if (tieucau < 150000) {
-                xn12Val = "Thap";
-            }
-            if (tieucau >= 150000) {
-                xn12Val = "Binh thuong";
-            }
-
-            facts += xn1Val + "," + xn2Val + "," + xn3Val + "," + xn4Val + "," + xn5Val + "," + xn6Val + "," + xn7Val + "," + xn8Val + "," + xn9Val + "," + xn10Val + "," + xn11Val + "," + xn12Val;
-
+        } catch (NumberFormatException e) {
+            return "\nThông tin xét nghiệm phải nhập đủ và đúng định dạng";
         }
+
+        // ast
+        if ((ast < 35.0 && gender.equalsIgnoreCase("Nu")) || (ast < 50.0 && gender.equalsIgnoreCase("Nam")) || (ast < 60.0 && gender.equalsIgnoreCase("Tre em"))) {
+            astVal = "Binh thuong";
+        }
+        if (ast < 100.0) {
+            astVal = "Tang nhe";
+        }
+        if (ast < 300.0) {
+            astVal = "Tang vua";
+        }
+        if (ast >= 300) {
+            astVal = "Tang cao";
+        }
+
+        // viem gan b
+        boolean viem_gan_b_man_tinh = false;
+        if (hbsag.equals("-")) {
+            facts += "\n- Không nhiễm viêm gan B";
+        } else {
+            if (antihbcigm.equals("+")) {
+                facts += "\n- Viêm gan B cấp tính";
+            } else {
+                if (antihbcigg.equals("+")) {
+                    if (hbeag.equals("+")) {
+                        facts += "\n- Viêm gan B mãn tính, Virut đang nhân lên";
+                        viem_gan_b_man_tinh = true;
+                    } else {
+                        facts += "\n- Viêm gan B mãn tính, Virut không hoạt động";
+                        viem_gan_b_man_tinh = true;
+                    }
+                } else {
+                    facts += "\n- Viêm gan B cấp tính";
+                }
+            }
+        }
+
+        // viem gan c
+        boolean viem_gan_c_man_tinh = false;
+        if (antihcv.equals("-")) {
+            facts += "\n- Không nhiễm viêm gan C";
+        } else {
+            if (hcvrna.equals("-")) {
+                facts += "\n- Hiện tại không nhiễm viêm gan C (đã từng nhiễm trong quá khứ)";
+            } else {
+                facts += "\n- Nhiễm viêm gan C mãn tính";
+                viem_gan_c_man_tinh = true;
+            }
+        }
+
+        // gan nhiem mo
+        boolean gan_nhiem_mo = false;
+        if (fiboCAP <= 233) {
+            facts += "\n- Không nhiễm gan nhiễm mỡ";
+        } else if (fiboCAP <= 258) {
+            facts += "\n- Gan nhiễm mỡ nhẹ";
+            gan_nhiem_mo = true;
+        } else if (fiboCAP <= 290) {
+            facts += "\n- Gan nhiễm mỡ vừa";
+            gan_nhiem_mo = true;
+        } else {
+            facts += "\n- Gan nhiễm mỡ nặng";
+            gan_nhiem_mo = true;
+        }
+
+        // viem gan do ruou
+        if (gan_nhiem_mo) {
+            if (btnCoUongCon.isSelected()) {
+                facts += " do sử dụng rượu";
+
+                if (!astVal.equals("Binh thuong") && (float) (1.0 * ast / alt) > 2.0) {
+                    facts += "\n- Viêm gan do rượu";
+                }
+            }
+        }
+
+        // danh gia xo gan
+        // fib-4
+        float fib4 = (float) ((tuoi * ast) / (tieucau * Math.sqrt(alt)));
+
+        if (fib4 < 1.45) {
+            if (viem_gan_b_man_tinh || viem_gan_c_man_tinh) {
+                facts += "\n- Loại trừ khả năng xơ gan";
+            }
+        } else if (fib4 <= 3.25) {
+            if (viem_gan_b_man_tinh) {
+                facts += "\n- Xơ hoá nhẹ do viêm gan B";
+            }
+            if (viem_gan_c_man_tinh) {
+                facts += "\n- Xơ hoá nhẹ do viêm gan C";
+            }
+        } else {
+            if (viem_gan_b_man_tinh) {
+                facts += "\n- Xơ hoá nặng do viêm gan B";
+            }
+            if (viem_gan_c_man_tinh) {
+                facts += "\n- Xơ hoá nặng do viêm gan C";
+            }
+        }
+
         return facts;
     }
 
     void compareRules(String facts) {
         String result = "";
+        taFactsResult.setText("Kết quả lâm sàng: ");
         for (String rule : rulesListInput) {
             int ruleResultIdx = rule.lastIndexOf(",");
+            String condition = rule.substring(0, ruleResultIdx + 1);
             String ruleResult = rule.substring(ruleResultIdx + 1).trim(); // lay sau dau ,
-            if (rule.equalsIgnoreCase(facts)) {
+            if (condition.equalsIgnoreCase(facts)) {
                 // do something
-                taFactsResult.setText(ruleResult);
+                taFactsResult.append(ruleResult);
                 return;
             }
         }
 
-        taFactsResult.setText("Nhập thêm thông tin để tư vấn");
+        taFactsResult.append("Nhập thêm thông tin để tư vấn");
     }
 
     @SuppressWarnings("unchecked")
@@ -267,17 +344,24 @@ public class MainFrm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         taFactsResult = new javax.swing.JTextArea();
         jLabel55 = new javax.swing.JLabel();
-        jRadioButton11 = new javax.swing.JRadioButton();
+        btnCoUongCon = new javax.swing.JRadioButton();
         jRadioButton12 = new javax.swing.JRadioButton();
         jLabel56 = new javax.swing.JLabel();
-        jRadioButton13 = new javax.swing.JRadioButton();
-        jRadioButton14 = new javax.swing.JRadioButton();
-        jRadioButton15 = new javax.swing.JRadioButton();
+        ruou1 = new javax.swing.JRadioButton();
+        ruou2 = new javax.swing.JRadioButton();
+        ruou3 = new javax.swing.JRadioButton();
         jLabel57 = new javax.swing.JLabel();
-        jRadioButton16 = new javax.swing.JRadioButton();
-        jRadioButton17 = new javax.swing.JRadioButton();
+        ruou4 = new javax.swing.JRadioButton();
+        ruou5 = new javax.swing.JRadioButton();
         selectXetNghiem = new javax.swing.JRadioButton();
         selectKhongXetNghiem = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        fbE = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        fbCAP = new javax.swing.JTextField();
+        jLabel58 = new javax.swing.JLabel();
+        inpTuoi = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jCheckBox21 = new javax.swing.JCheckBox();
@@ -352,35 +436,35 @@ public class MainFrm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        con1.setText("Vàng da; mắt");
+        con1.setText("Vang da; mat");
 
-        con11.setText("Gia đình có người bị bệnh gan");
+        con11.setText("Gia dinh co nguoi bi benh gan");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Các triệu chứng");
 
-        con3.setText("Nước tiểu sẫm màu");
+        con3.setText("Nuoc tieu sam mau");
 
-        con4.setText("Mệt mỏi, chán ăn, rối loạn tiêu hóa");
+        con4.setText("Met moi; chan an; roi loan tieu hoa");
 
-        con5.setText("Đau bụng, nôn mửa");
+        con5.setText("Dau bung; non mua");
 
-        con7.setText("Bụng phình");
+        con7.setText("Bung phinh");
 
-        con6.setText("Chân phù nề");
+        con6.setText("Chan phu ne");
 
-        con8.setText("Ngứa da, mề đay, mụn nhọt");
+        con8.setText("Ngua da; me day; mun nhot");
 
-        con9.setText("Sốt nhẹ");
+        con9.setText("Sot nhe");
 
-        con10.setText("Đau tức hay khó chịu vùng gan (vùng bụng bên phải)");
+        con10.setText("Dau tuc hay kho chiu vung gan (vung bung ben phai)");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Tiền sử");
 
-        con2.setText("Phân nhạt màu");
+        con2.setText("Phan nhat mau");
 
-        con12.setText("Từng truyền máu");
+        con12.setText("Tung truyen mau");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Thông tin");
@@ -456,11 +540,11 @@ public class MainFrm extends javax.swing.JFrame {
 
         jLabel55.setText("Sử dụng đồ uống có cồn");
 
-        btnGroupDoUongCon.add(jRadioButton11);
-        jRadioButton11.setText("Có");
-        jRadioButton11.addActionListener(new java.awt.event.ActionListener() {
+        btnGroupDoUongCon.add(btnCoUongCon);
+        btnCoUongCon.setText("Có");
+        btnCoUongCon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton11ActionPerformed(evt);
+                btnCoUongConActionPerformed(evt);
             }
         });
 
@@ -474,45 +558,45 @@ public class MainFrm extends javax.swing.JFrame {
 
         jLabel56.setText("Thời gian uống");
 
-        btnGroupThoiGianUong.add(jRadioButton13);
-        jRadioButton13.setText("< 1 năm");
-        jRadioButton13.addActionListener(new java.awt.event.ActionListener() {
+        btnGroupThoiGianUong.add(ruou1);
+        ruou1.setText("< 1 năm");
+        ruou1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton13ActionPerformed(evt);
+                ruou1ActionPerformed(evt);
             }
         });
 
-        btnGroupThoiGianUong.add(jRadioButton14);
-        jRadioButton14.setText("1-3 năm");
-        jRadioButton14.addActionListener(new java.awt.event.ActionListener() {
+        btnGroupThoiGianUong.add(ruou2);
+        ruou2.setText("1-3 năm");
+        ruou2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton14ActionPerformed(evt);
+                ruou2ActionPerformed(evt);
             }
         });
 
-        btnGroupThoiGianUong.add(jRadioButton15);
-        jRadioButton15.setText("> 3 năm");
-        jRadioButton15.addActionListener(new java.awt.event.ActionListener() {
+        btnGroupThoiGianUong.add(ruou3);
+        ruou3.setText("> 3 năm");
+        ruou3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton15ActionPerformed(evt);
+                ruou3ActionPerformed(evt);
             }
         });
 
         jLabel57.setText("Các thức uống");
 
-        btnGroupCachThucUong.add(jRadioButton16);
-        jRadioButton16.setText("Liên tục (4-5 lần/ tuần)");
-        jRadioButton16.addActionListener(new java.awt.event.ActionListener() {
+        btnGroupCachThucUong.add(ruou4);
+        ruou4.setText("Liên tục (4-5 lần/ tuần)");
+        ruou4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton16ActionPerformed(evt);
+                ruou4ActionPerformed(evt);
             }
         });
 
-        btnGroupCachThucUong.add(jRadioButton17);
-        jRadioButton17.setText("Thỉnh thoảng (1-2 lần/tuần)");
-        jRadioButton17.addActionListener(new java.awt.event.ActionListener() {
+        btnGroupCachThucUong.add(ruou5);
+        ruou5.setText("Thỉnh thoảng (1-2 lần/tuần)");
+        ruou5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton17ActionPerformed(evt);
+                ruou5ActionPerformed(evt);
             }
         });
 
@@ -532,6 +616,14 @@ public class MainFrm extends javax.swing.JFrame {
                 selectKhongXetNghiemActionPerformed(evt);
             }
         });
+
+        jLabel3.setText("Fibroscan:");
+
+        jLabel4.setText("E (kPa)");
+
+        jLabel5.setText("CAP (dB/m)");
+
+        jLabel58.setText("Tuổi");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -614,28 +706,33 @@ public class MainFrm extends javax.swing.JFrame {
                                                     .addComponent(con9)
                                                     .addComponent(con8)
                                                     .addComponent(con7)
-                                                    .addComponent(con6)
                                                     .addComponent(con10)
                                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                                         .addComponent(jLabel55)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(jRadioButton11)
+                                                        .addComponent(btnCoUongCon)
                                                         .addGap(46, 46, 46)
                                                         .addComponent(jRadioButton12))
                                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                                         .addComponent(jLabel56)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(jRadioButton13)
+                                                        .addComponent(ruou1)
                                                         .addGap(29, 29, 29)
-                                                        .addComponent(jRadioButton14)
+                                                        .addComponent(ruou2)
                                                         .addGap(38, 38, 38)
-                                                        .addComponent(jRadioButton15))
+                                                        .addComponent(ruou3))
                                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                                         .addComponent(jLabel57)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(jRadioButton16)
+                                                        .addComponent(ruou4)
                                                         .addGap(46, 46, 46)
-                                                        .addComponent(jRadioButton17))))
+                                                        .addComponent(ruou5))
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                            .addComponent(jLabel58)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                            .addComponent(inpTuoi))
+                                                        .addComponent(con6, javax.swing.GroupLayout.Alignment.LEADING))))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(269, 269, 269)
                                                 .addComponent(jLabel24)
@@ -668,7 +765,17 @@ public class MainFrm extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel19)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(xn7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addComponent(xn7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jLabel4)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(fbE, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(34, 34, 34)
+                                                .addComponent(jLabel5)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(fbCAP, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -689,7 +796,9 @@ public class MainFrm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(congender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(congender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel58)
+                            .addComponent(inpTuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -719,14 +828,14 @@ public class MainFrm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(con11)
                     .addComponent(jLabel55)
-                    .addComponent(jRadioButton11)
+                    .addComponent(btnCoUongCon)
                     .addComponent(jRadioButton12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel56)
-                    .addComponent(jRadioButton13)
-                    .addComponent(jRadioButton14)
-                    .addComponent(jRadioButton15))
+                    .addComponent(ruou1)
+                    .addComponent(ruou2)
+                    .addComponent(ruou3))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -735,8 +844,8 @@ public class MainFrm extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel57)
-                            .addComponent(jRadioButton16)
-                            .addComponent(jRadioButton17))))
+                            .addComponent(ruou4)
+                            .addComponent(ruou5))))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -778,7 +887,14 @@ public class MainFrm extends javax.swing.JFrame {
                     .addComponent(jLabel24)
                     .addComponent(xn12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel25))
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(fbE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(fbCAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bnTuVan)
                     .addComponent(jButton2))
@@ -1416,38 +1532,50 @@ public class MainFrm extends javax.swing.JFrame {
         jRadioButton10.setActionCommand("> 16 tuổi");
     }//GEN-LAST:event_jRadioButton10ActionPerformed
 
-    private void jRadioButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton11ActionPerformed
-        jRadioButton11.setActionCommand("Co");
-    }//GEN-LAST:event_jRadioButton11ActionPerformed
+    private void btnCoUongConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoUongConActionPerformed
+        btnCoUongCon.setActionCommand("Co");
+
+        enableGroupUongCon();
+    }//GEN-LAST:event_btnCoUongConActionPerformed
 
     private void jRadioButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton12ActionPerformed
-        jRadioButton11.setActionCommand("Khong");
+        btnCoUongCon.setActionCommand("Khong");
+
+        disableGroupUongCon();
     }//GEN-LAST:event_jRadioButton12ActionPerformed
 
-    private void jRadioButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton13ActionPerformed
-        jRadioButton13.setActionCommand("< 1 nam");
-    }//GEN-LAST:event_jRadioButton13ActionPerformed
+    private void ruou1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou1ActionPerformed
+        ruou1.setActionCommand("< 1 nam");
+    }//GEN-LAST:event_ruou1ActionPerformed
 
-    private void jRadioButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton14ActionPerformed
-        jRadioButton14.setActionCommand("1-3 nam");
-    }//GEN-LAST:event_jRadioButton14ActionPerformed
+    private void ruou2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou2ActionPerformed
+        ruou2.setActionCommand("1-3 nam");
+    }//GEN-LAST:event_ruou2ActionPerformed
 
-    private void jRadioButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton15ActionPerformed
-        jRadioButton15.setActionCommand("> 3 nam");
-    }//GEN-LAST:event_jRadioButton15ActionPerformed
+    private void ruou3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou3ActionPerformed
+        ruou3.setActionCommand("> 3 nam");
+    }//GEN-LAST:event_ruou3ActionPerformed
 
-    private void jRadioButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton16ActionPerformed
-        jRadioButton16.setActionCommand("Lien tuc (4-5 lan/ tuan)");
-    }//GEN-LAST:event_jRadioButton16ActionPerformed
+    private void ruou4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou4ActionPerformed
+        ruou4.setActionCommand("Lien tuc (4-5 lan/ tuan)");
+    }//GEN-LAST:event_ruou4ActionPerformed
 
-    private void jRadioButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton17ActionPerformed
-        jRadioButton17.setActionCommand("Thinh thoang (1-2 lan/tuan)");
-    }//GEN-LAST:event_jRadioButton17ActionPerformed
+    private void ruou5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou5ActionPerformed
+        ruou5.setActionCommand("Thinh thoang (1-2 lan/tuan)");
+    }//GEN-LAST:event_ruou5ActionPerformed
 
     private void bnTuVanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnTuVanActionPerformed
+        // lam sang
         String facts = convertSelectionToString();
         System.out.println("input: " + facts);
         compareRules(facts);
+
+        // xet nghiem
+        if (coKetQuaXetNghiem) {
+            taFactsResult.append("\nKết luận xét nghiệm:");
+            taFactsResult.append(xuLyKetQuaXetNghiem());
+        }
+
     }//GEN-LAST:event_bnTuVanActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -1664,6 +1792,7 @@ public class MainFrm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnTuVan;
+    private javax.swing.JRadioButton btnCoUongCon;
     private javax.swing.ButtonGroup btnGroupCachThucUong;
     private javax.swing.ButtonGroup btnGroupDoUongCon;
     private javax.swing.ButtonGroup btnGroupThoiGianUong;
@@ -1686,6 +1815,9 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JCheckBox con8;
     private javax.swing.JCheckBox con9;
     private javax.swing.JComboBox<String> congender;
+    private javax.swing.JTextField fbCAP;
+    private javax.swing.JTextField fbE;
+    private javax.swing.JTextField inpTuoi;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1731,6 +1863,7 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -1741,6 +1874,7 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
@@ -1751,6 +1885,7 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
@@ -1759,6 +1894,7 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1769,13 +1905,7 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton10;
-    private javax.swing.JRadioButton jRadioButton11;
     private javax.swing.JRadioButton jRadioButton12;
-    private javax.swing.JRadioButton jRadioButton13;
-    private javax.swing.JRadioButton jRadioButton14;
-    private javax.swing.JRadioButton jRadioButton15;
-    private javax.swing.JRadioButton jRadioButton16;
-    private javax.swing.JRadioButton jRadioButton17;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
@@ -1794,6 +1924,11 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JRadioButton ruou1;
+    private javax.swing.JRadioButton ruou2;
+    private javax.swing.JRadioButton ruou3;
+    private javax.swing.JRadioButton ruou4;
+    private javax.swing.JRadioButton ruou5;
     private javax.swing.JRadioButton selectKhongXetNghiem;
     private javax.swing.JRadioButton selectXetNghiem;
     private javax.swing.JTextArea taFactsResult;
