@@ -20,6 +20,7 @@ import utils.IOFile;
 public class MainFrm extends javax.swing.JFrame {
 
     ArrayList<String> rulesListInput;
+    ArrayList<String> listBieuHien;
     String factsResult;
 
     boolean coKetQuaXetNghiem = false;
@@ -28,8 +29,8 @@ public class MainFrm extends javax.swing.JFrame {
     public MainFrm() {
         initComponents();
         listModel = new DefaultListModel();
-        rulesListInput = IOFile.readFromFile("rules.txt");
-
+        rulesListInput = IOFile.readFromFile("tiensubenh.csv");
+        listBieuHien = IOFile.readFromFile("bieuhienbenh.csv");
     }
 
     void disableGroupUongCon() {
@@ -96,26 +97,53 @@ public class MainFrm extends javax.swing.JFrame {
         if (con10.isSelected()) {
             facts += con10.getActionCommand() + ",";
         }
+//        if (con11.isSelected()) {
+//            facts += con11.getActionCommand() + ",";
+//        }
+//        if (con12.isSelected()) {
+//            facts += con12.getActionCommand() + ",";
+//        }
+
+//        if (btnGroupDoUongCon.getSelection() != null) {
+//            facts += "Su dung do uong co con " + btnGroupDoUongCon.getSelection().getActionCommand() + ",";
+//        }
+//
+//        if (btnGroupThoiGianUong.getSelection() != null) {
+//            facts += "Thoi gian uong " + btnGroupThoiGianUong.getSelection().getActionCommand() + ",";
+//        }
+//
+//        if (btnGroupCachThucUong.getSelection() != null) {
+//            facts += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
+//        }
+        int ind = facts.lastIndexOf(",");
+        String tempFacts = facts.substring(0, ind);
+        return tempFacts;
+    }
+
+    //tien su nguoi dung chon
+    String tiensuToString() {
+        String tiensu = "";
         if (con11.isSelected()) {
-            facts += con11.getActionCommand() + ",";
+            tiensu += con11.getActionCommand() + ",";
         }
         if (con12.isSelected()) {
-            facts += con12.getActionCommand() + ",";
+            tiensu += con12.getActionCommand() + ",";
         }
 
         if (btnGroupDoUongCon.getSelection() != null) {
-            facts += "Su dung do uong co con " + btnGroupDoUongCon.getSelection().getActionCommand() + ",";
+            tiensu += "Su dung do uong co con " + btnGroupDoUongCon.getSelection().getActionCommand() + ",";
         }
 
         if (btnGroupThoiGianUong.getSelection() != null) {
-            facts += "Thoi gian uong " + btnGroupThoiGianUong.getSelection().getActionCommand() + ",";
+            tiensu += "Thoi gian uong " + btnGroupThoiGianUong.getSelection().getActionCommand() + ",";
         }
 
         if (btnGroupCachThucUong.getSelection() != null) {
-            facts += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
+            tiensu += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
         }
-
-        return facts;
+        int index = tiensu.lastIndexOf(",");
+        String temp = tiensu.substring(0, index);
+        return temp;
     }
 
     // ket qua xet nghiem
@@ -259,19 +287,38 @@ public class MainFrm extends javax.swing.JFrame {
         return facts;
     }
 
-    void compareRules(String facts) {
-        String result = "";
+    void compareRules(String facts, String tiensu) {
+        System.out.println(facts);
         taFactsResult.setText("Kết quả lâm sàng: ");
-        for (String rule : rulesListInput) {
-            int ruleResultIdx = rule.lastIndexOf(",");
-            String condition = rule.substring(0, ruleResultIdx + 1);
-            String ruleResult = rule.substring(ruleResultIdx + 1).trim(); // lay sau dau ,
-            if (condition.equalsIgnoreCase(facts)) {
-                // do something
-                taFactsResult.append(ruleResult);
-                return;
+        for (String bieuhien : listBieuHien) {
+            int bieuhienIndex = bieuhien.lastIndexOf(",");
+            String con = bieuhien.substring(0, bieuhienIndex);
+            String chandoan = bieuhien.substring(bieuhienIndex + 1).trim();
+            if (con.equals(facts)) {
+//                System.out.println("ok");
+                for (String rule : rulesListInput) {
+                    int ruleResultIdx = rule.indexOf('"');
+                    String condition = rule.substring(0, ruleResultIdx-1);
+                    System.out.println(condition);
+                    String ruleResult = rule.substring(ruleResultIdx + 1).trim(); // lay sau dau ,
+                    if (condition.equalsIgnoreCase(chandoan + "," + tiensu)) {
+                        // do something
+                        taFactsResult.append(ruleResult);
+                        return;
+                    }
+                }
             }
         }
+//        for (String rule : rulesListInput) {
+//            int ruleResultIdx = rule.lastIndexOf(",");
+//            String condition = rule.substring(0, ruleResultIdx + 1);
+//            String ruleResult = rule.substring(ruleResultIdx + 1).trim(); // lay sau dau ,
+//            if (condition.equalsIgnoreCase(facts)) {
+//                // do something
+//                taFactsResult.append(ruleResult);
+//                return;
+//            }
+//        }
 
         taFactsResult.append("Nhập thêm thông tin để tư vấn");
     }
@@ -784,8 +831,8 @@ public class MainFrm extends javax.swing.JFrame {
                             .addComponent(jLabel26))
                         .addGap(42, 42, 42)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -899,17 +946,17 @@ public class MainFrm extends javax.swing.JFrame {
                     .addComponent(bnTuVan)
                     .addComponent(jButton2))
                 .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel26)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel26)
+                .addGap(7, 7, 7)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Tư vấn", jPanel1);
 
-        jCheckBox21.setText("Vàng da; mắt");
+        jCheckBox21.setText("Vang da; mat");
 
-        jCheckBox22.setText("Gia đình có người bị bệnh gan");
+        jCheckBox22.setText("Gia đinh co nguoi bi benh gan");
         jCheckBox22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox22ActionPerformed(evt);
@@ -919,31 +966,31 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel27.setText("Các triệu chứng");
 
-        jCheckBox23.setText("Nước tiểu sẫm màu");
+        jCheckBox23.setText("Nuoc tieu sam mau");
         jCheckBox23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox23ActionPerformed(evt);
             }
         });
 
-        jCheckBox24.setText("Mệt mỏi; chán ăn; rối loạn tiêu hóa");
+        jCheckBox24.setText("Met moi; chan an; roi loan tieu hoa");
 
-        jCheckBox25.setText("Đau bụng; nôn mửa");
+        jCheckBox25.setText("Dau bung; non mua");
 
-        jCheckBox26.setText("Bụng phình");
+        jCheckBox26.setText("Bung phinh");
 
-        jCheckBox27.setText("Chân phù nề");
+        jCheckBox27.setText("Chan phu ne");
 
-        jCheckBox28.setText("Ngứa da; mề đay; mụn nhọt");
+        jCheckBox28.setText("Ngua da; me đay; mun nhot");
 
-        jCheckBox29.setText("Sốt nhẹ");
+        jCheckBox29.setText("Sot nhe");
         jCheckBox29.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox29ActionPerformed(evt);
             }
         });
 
-        jCheckBox30.setText("Đau tức hay khó chịu vùng gan (vùng bụng bên phải)");
+        jCheckBox30.setText("Dau tuc hay kho chiu vung gan (vung bung ben phai)");
         jCheckBox30.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox30ActionPerformed(evt);
@@ -953,9 +1000,9 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel28.setText("Tiền sử");
 
-        jCheckBox31.setText("Phân nhạt màu");
+        jCheckBox31.setText("Phan nhat mau");
 
-        jCheckBox32.setText("Từng truyền máu");
+        jCheckBox32.setText("Tung truyen mau");
         jCheckBox32.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox32ActionPerformed(evt);
@@ -971,14 +1018,14 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel32.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel32.setText("Nhập điều kiện");
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
+        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nu" }));
         jComboBox8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox8ActionPerformed(evt);
             }
         });
 
-        jCheckBox40.setText("Trẻ em");
+        jCheckBox40.setText("Tre em");
 
         jLabel33.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel33.setText("Các chỉ số xét nghiệm");
@@ -1054,7 +1101,7 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel54.setText("Danh sách luật");
 
         btnGroupThoiGianUong.add(jRadioButton1);
-        jRadioButton1.setText("< 1 năm");
+        jRadioButton1.setText("< 1 nam");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -1062,7 +1109,7 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         btnGroupThoiGianUong.add(jRadioButton2);
-        jRadioButton2.setText("> 3 năm");
+        jRadioButton2.setText("> 3 nam");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton2ActionPerformed(evt);
@@ -1070,7 +1117,7 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         btnGroupThoiGianUong.add(jRadioButton3);
-        jRadioButton3.setText("1-3 năm");
+        jRadioButton3.setText("1-3 nam");
         jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton3ActionPerformed(evt);
@@ -1078,7 +1125,7 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         btnGroupDoUongCon.add(jRadioButton4);
-        jRadioButton4.setText("Có");
+        jRadioButton4.setText("Co");
         jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton4ActionPerformed(evt);
@@ -1086,7 +1133,7 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         btnGroupDoUongCon.add(jRadioButton5);
-        jRadioButton5.setText("Không");
+        jRadioButton5.setText("Khong");
         jRadioButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton5ActionPerformed(evt);
@@ -1094,7 +1141,7 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         btnGroupCachThucUong.add(jRadioButton6);
-        jRadioButton6.setText("Liên tục (4-5 lần/ tuần)");
+        jRadioButton6.setText("Lien tuc (4-5 lan/ tuan)");
         jRadioButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton6ActionPerformed(evt);
@@ -1102,7 +1149,7 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         btnGroupCachThucUong.add(jRadioButton7);
-        jRadioButton7.setText("Thỉnh thoảng (1-2 lần/tuần)");
+        jRadioButton7.setText("Thinh thoang (1-2 lan/tuan)");
         jRadioButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton7ActionPerformed(evt);
@@ -1113,7 +1160,7 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel52.setText("Tuổi");
 
         buttonGroup5.add(jRadioButton8);
-        jRadioButton8.setText("0-4 tháng");
+        jRadioButton8.setText("0-4 thang");
         jRadioButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton8ActionPerformed(evt);
@@ -1121,7 +1168,7 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         buttonGroup5.add(jRadioButton9);
-        jRadioButton9.setText("4-6 tháng");
+        jRadioButton9.setText("4-6 thang");
         jRadioButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton9ActionPerformed(evt);
@@ -1129,7 +1176,7 @@ public class MainFrm extends javax.swing.JFrame {
         });
 
         buttonGroup5.add(jRadioButton10);
-        jRadioButton10.setText("> 16 tuổi");
+        jRadioButton10.setText("> 16 tuoi");
         jRadioButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton10ActionPerformed(evt);
@@ -1467,7 +1514,7 @@ public class MainFrm extends javax.swing.JFrame {
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-        jRadioButton1.setActionCommand("< 1 năm");
+        jRadioButton1.setActionCommand("< 1 nam");
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1485,32 +1532,32 @@ public class MainFrm extends javax.swing.JFrame {
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
-        jRadioButton4.setActionCommand("Có");
+        jRadioButton4.setActionCommand("Co");
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
         // TODO add your handling code here:
-        jRadioButton5.setActionCommand("Không");
+        jRadioButton5.setActionCommand("Khong");
     }//GEN-LAST:event_jRadioButton5ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
         // TODO add your handling code here:
-        jRadioButton3.setActionCommand("1-3 năm");
+        jRadioButton3.setActionCommand("1-3 nam");
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-        jRadioButton1.setActionCommand("> 3 năm");
+        jRadioButton1.setActionCommand("> 3 nam");
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
         // TODO add your handling code here:
-        jRadioButton6.setActionCommand("Liên tục (4-5 lần/tuần)");
+        jRadioButton6.setActionCommand("Lien tuc (4-5 lan/tuan)");
     }//GEN-LAST:event_jRadioButton6ActionPerformed
 
     private void jRadioButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton7ActionPerformed
         // TODO add your handling code here:
-        jRadioButton7.setActionCommand("Thỉnh thoảng (1-2 lần/tuần)");
+        jRadioButton7.setActionCommand("Thinh thoang (1-2 lan/tuan)");
     }//GEN-LAST:event_jRadioButton7ActionPerformed
 
     private void jComboBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox8ActionPerformed
@@ -1519,64 +1566,18 @@ public class MainFrm extends javax.swing.JFrame {
 
     private void jRadioButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton8ActionPerformed
         // TODO add your handling code here:
-        jRadioButton8.setActionCommand("0-4 tháng");
+        jRadioButton8.setActionCommand("0-4 thang");
     }//GEN-LAST:event_jRadioButton8ActionPerformed
 
     private void jRadioButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton9ActionPerformed
         // TODO add your handling code here:
-        jRadioButton9.setActionCommand("4-6 tháng");
+        jRadioButton9.setActionCommand("4-6 thang");
     }//GEN-LAST:event_jRadioButton9ActionPerformed
 
     private void jRadioButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton10ActionPerformed
         // TODO add your handling code here:
-        jRadioButton10.setActionCommand("> 16 tuổi");
+        jRadioButton10.setActionCommand("> 16 tuoi");
     }//GEN-LAST:event_jRadioButton10ActionPerformed
-
-    private void btnCoUongConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoUongConActionPerformed
-        btnCoUongCon.setActionCommand("Co");
-
-        enableGroupUongCon();
-    }//GEN-LAST:event_btnCoUongConActionPerformed
-
-    private void jRadioButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton12ActionPerformed
-        btnCoUongCon.setActionCommand("Khong");
-
-        disableGroupUongCon();
-    }//GEN-LAST:event_jRadioButton12ActionPerformed
-
-    private void ruou1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou1ActionPerformed
-        ruou1.setActionCommand("< 1 nam");
-    }//GEN-LAST:event_ruou1ActionPerformed
-
-    private void ruou2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou2ActionPerformed
-        ruou2.setActionCommand("1-3 nam");
-    }//GEN-LAST:event_ruou2ActionPerformed
-
-    private void ruou3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou3ActionPerformed
-        ruou3.setActionCommand("> 3 nam");
-    }//GEN-LAST:event_ruou3ActionPerformed
-
-    private void ruou4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou4ActionPerformed
-        ruou4.setActionCommand("Lien tuc (4-5 lan/ tuan)");
-    }//GEN-LAST:event_ruou4ActionPerformed
-
-    private void ruou5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou5ActionPerformed
-        ruou5.setActionCommand("Thinh thoang (1-2 lan/tuan)");
-    }//GEN-LAST:event_ruou5ActionPerformed
-
-    private void bnTuVanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnTuVanActionPerformed
-        // lam sang
-        String facts = convertSelectionToString();
-        System.out.println("input: " + facts);
-        compareRules(facts);
-
-        // xet nghiem
-        if (coKetQuaXetNghiem) {
-            taFactsResult.append("\nKết luận xét nghiệm:");
-            taFactsResult.append(xuLyKetQuaXetNghiem());
-        }
-
-    }//GEN-LAST:event_bnTuVanActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
@@ -1593,13 +1594,59 @@ public class MainFrm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void selectKhongXetNghiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectKhongXetNghiemActionPerformed
+        coKetQuaXetNghiem = false;
+    }//GEN-LAST:event_selectKhongXetNghiemActionPerformed
+
     private void selectXetNghiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectXetNghiemActionPerformed
         coKetQuaXetNghiem = true;
     }//GEN-LAST:event_selectXetNghiemActionPerformed
 
-    private void selectKhongXetNghiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectKhongXetNghiemActionPerformed
-        coKetQuaXetNghiem = false;
-    }//GEN-LAST:event_selectKhongXetNghiemActionPerformed
+    private void ruou5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou5ActionPerformed
+        ruou5.setActionCommand("Thinh thoang (1-2 lan/tuan)");
+    }//GEN-LAST:event_ruou5ActionPerformed
+
+    private void ruou4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou4ActionPerformed
+        ruou4.setActionCommand("Lien tuc (4-5 lan/ tuan)");
+    }//GEN-LAST:event_ruou4ActionPerformed
+
+    private void ruou3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou3ActionPerformed
+        ruou3.setActionCommand("> 3 nam");
+    }//GEN-LAST:event_ruou3ActionPerformed
+
+    private void ruou2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou2ActionPerformed
+        ruou2.setActionCommand("1-3 nam");
+    }//GEN-LAST:event_ruou2ActionPerformed
+
+    private void ruou1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou1ActionPerformed
+        ruou1.setActionCommand("< 1 nam");
+    }//GEN-LAST:event_ruou1ActionPerformed
+
+    private void jRadioButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton12ActionPerformed
+        btnCoUongCon.setActionCommand("Khong");
+
+        disableGroupUongCon();
+    }//GEN-LAST:event_jRadioButton12ActionPerformed
+
+    private void btnCoUongConActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCoUongConActionPerformed
+        btnCoUongCon.setActionCommand("Co");
+
+        enableGroupUongCon();
+    }//GEN-LAST:event_btnCoUongConActionPerformed
+
+    private void bnTuVanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnTuVanActionPerformed
+        // lam sang
+        String facts = convertSelectionToString();
+        String tiensu = tiensuToString();
+        System.out.println("input: " + facts + tiensu);
+        compareRules(facts, tiensu);
+
+        // xet nghiem
+        if (coKetQuaXetNghiem) {
+            taFactsResult.append("\nKết luận xét nghiệm:");
+            taFactsResult.append(xuLyKetQuaXetNghiem());
+        }
+    }//GEN-LAST:event_bnTuVanActionPerformed
 
     private String addRules() {
         String rule = "";
