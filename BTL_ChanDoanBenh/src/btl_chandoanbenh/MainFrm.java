@@ -148,16 +148,16 @@ public class MainFrm extends javax.swing.JFrame {
 
     // ket qua xet nghiem
     String xuLyKetQuaXetNghiem() {
-        String facts = "";
+        String results = "";
 
         String gender = congender.getSelectedItem().toString();
 
         // xet nghiem
         String astVal = xn1.getText().trim();
-        String xn2Val = xn2.getText().trim();
+        String altVal = xn2.getText().trim();
         String xn3Val = xn3.getText().trim();
-        String xn4Val = xn4.getText().trim();
-        String xn5Val = xn5.getText().trim();
+        String bilTTVal = xn4.getText().trim();
+        String albuminVal = xn5.getText().trim();
         String hbsag = xn6.getSelectedItem().toString();
         String antihbcigm = xn7.getSelectedItem().toString();
         String antihbcigg = xn8.getSelectedItem().toString();
@@ -168,15 +168,13 @@ public class MainFrm extends javax.swing.JFrame {
 
         float ast, alt, bilGT, bilTT, albumin, fiboE, fiboCAP;
         int tieucau;
-        int tuoi;
 
         try {
-            tuoi = Integer.valueOf(inpTuoi.getText().trim());
             ast = Float.parseFloat(astVal);
-            alt = Float.parseFloat(xn2Val);
+            alt = Float.parseFloat(altVal);
             bilGT = Float.parseFloat(xn3Val);
-            bilTT = Float.parseFloat(xn4Val);
-            albumin = Float.parseFloat(xn5Val);
+            bilTT = Float.parseFloat(bilTTVal);
+            albumin = Float.parseFloat(albuminVal);
             tieucau = Integer.valueOf(xn12Val);
             fiboE = Float.parseFloat(fbE.getText().trim());
             fiboCAP = Float.parseFloat(fbCAP.getText().trim());
@@ -198,93 +196,170 @@ public class MainFrm extends javax.swing.JFrame {
         if (ast >= 300) {
             astVal = "Tang cao";
         }
+        // alt
+        if ((alt < 19.0 && gender.equalsIgnoreCase("Nu")) || (alt < 30.0 && gender.equalsIgnoreCase("Nam")) || (alt < 40.0 && gender.equalsIgnoreCase("Tre em"))) {
+            altVal = "Binh thuong";
+        }
+        if (alt < 100.0) {
+            altVal = "Tang nhe";
+        }
+        if (alt < 300.0) {
+            altVal = "Tang vua";
+        }
+        if (alt >= 300) {
+            altVal = "Tang cao";
+        }
+        //albumin
+        if ((albumin < 3.5 && gender.equalsIgnoreCase("Nu")) || (albumin < 3.5 && gender.equalsIgnoreCase("Nam")) || (albumin < 3.2 && gender.equalsIgnoreCase("Tre em"))) {
+            albuminVal = "Thap";
+        } else if ((albumin < 4.8 && gender.equalsIgnoreCase("Nu")) || (albumin < 4.8 && gender.equalsIgnoreCase("Nam")) || (albumin < 4.5 && gender.equalsIgnoreCase("Tre em"))) {
+            albuminVal = "Binh thuong";
+        } else {
+            albuminVal = "Cao";
+        }
+        // bil TT
+        if (bilTT < 0.4) {
+            bilTTVal = "Binh thuong";
+        }
+        if (bilTT >= 0.4) {
+            bilTTVal = "Cao";
+        }
 
         // viem gan b
-        boolean viem_gan_b_man_tinh = false;
+        boolean bi_viem_gan_b_man_tinh = false;
+        String viem_gan_b = "";
         if (hbsag.equals("-")) {
-            facts += "\n- Không nhiễm viêm gan B";
+            results += "\n- Không nhiễm viêm gan B";
         } else {
             if (antihbcigm.equals("+")) {
-                facts += "\n- Viêm gan B cấp tính";
+                results += "\n- Viêm gan B cấp tính";
+                viem_gan_b = "viem gan B cap tinh";
             } else {
                 if (antihbcigg.equals("+")) {
                     if (hbeag.equals("+")) {
-                        facts += "\n- Viêm gan B mãn tính, Virut đang nhân lên";
-                        viem_gan_b_man_tinh = true;
+                        results += "\n- Viêm gan B mãn tính, Virut đang nhân lên";
+                        bi_viem_gan_b_man_tinh = true;
+                        viem_gan_b = "viem gan B man tinh";
                     } else {
-                        facts += "\n- Viêm gan B mãn tính, Virut không hoạt động";
-                        viem_gan_b_man_tinh = true;
+                        results += "\n- Viêm gan B mãn tính, Virut không hoạt động";
+                        bi_viem_gan_b_man_tinh = true;
+                        viem_gan_b = "viem gan b man tinh";
                     }
                 } else {
-                    facts += "\n- Viêm gan B cấp tính";
+                    results += "\n- Viêm gan B cấp tính";
+                    viem_gan_b = "viem gan B cap tinh";
                 }
             }
         }
 
         // viem gan c
-        boolean viem_gan_c_man_tinh = false;
+        boolean bi_viem_gan_c_man_tinh = false;
+        String viem_gan_c = "";
         if (antihcv.equals("-")) {
-            facts += "\n- Không nhiễm viêm gan C";
+            results += "\n- Không nhiễm viêm gan C";
         } else {
             if (hcvrna.equals("-")) {
-                facts += "\n- Hiện tại không nhiễm viêm gan C (đã từng nhiễm trong quá khứ)";
+                results += "\n- Hiện tại không nhiễm viêm gan C (đã từng nhiễm trong quá khứ)";
             } else {
-                facts += "\n- Nhiễm viêm gan C mãn tính";
-                viem_gan_c_man_tinh = true;
+                results += "\n- Nhiễm viêm gan C mãn tính";
+                bi_viem_gan_c_man_tinh = true;
+                viem_gan_c = "viem gan c man tinh";
             }
         }
 
         // gan nhiem mo
-        boolean gan_nhiem_mo = false;
+        boolean bi_gan_nhiem_mo = false;
+        String gan_nhiem_mo = "";
         if (fiboCAP <= 233) {
-            facts += "\n- Không nhiễm gan nhiễm mỡ";
+            results += "\n- Không nhiễm gan nhiễm mỡ";
         } else if (fiboCAP <= 258) {
-            facts += "\n- Gan nhiễm mỡ nhẹ";
-            gan_nhiem_mo = true;
+            results += "\n- Gan nhiễm mỡ nhẹ";
+            bi_gan_nhiem_mo = true;
         } else if (fiboCAP <= 290) {
-            facts += "\n- Gan nhiễm mỡ vừa";
-            gan_nhiem_mo = true;
+            results += "\n- Gan nhiễm mỡ vừa";
+            bi_gan_nhiem_mo = true;
         } else {
-            facts += "\n- Gan nhiễm mỡ nặng";
-            gan_nhiem_mo = true;
+            results += "\n- Gan nhiễm mỡ nặng";
+            bi_gan_nhiem_mo = true;
         }
 
         // viem gan do ruou
-        if (gan_nhiem_mo) {
+        if (bi_gan_nhiem_mo) {
             if (btnCoUongCon.isSelected()) {
-                facts += " do sử dụng rượu";
+                results += " do sử dụng rượu";
 
                 if (!astVal.equals("Binh thuong") && (float) (1.0 * ast / alt) > 2.0) {
-                    facts += "\n- Viêm gan do rượu";
+                    results += "\n- Viêm gan do rượu";
                 }
             }
         }
 
-        // danh gia xo gan
-        // fib-4
-        float fib4 = (float) ((tuoi * ast) / (tieucau * Math.sqrt(alt)));
-
-        if (fib4 < 1.45) {
-            if (viem_gan_b_man_tinh || viem_gan_c_man_tinh) {
-                facts += "\n- Loại trừ khả năng xơ gan";
+        // danh gia xo hoa
+        // fibroscran
+        boolean f4 = false, f3 = false, f2 = false;
+        String xo_gan = "";
+        if (bi_viem_gan_b_man_tinh) {
+            if (fiboE <= 6.0) {
+                results += "\n- Xơ hoá nhẹ do viêm gan B";
+            } else if (fiboE <= 9.0) {
+                results += "\n- Xơ hoá đáng kể do viêm gan B";
+            } else if (fiboE <= 12) {
+                results += "\n- Xơ hoá nặng do viêm gan B";
+            } else {
+                xo_gan += "\n- Xơ gan do viêm gan B";
+                f4 = true;
             }
-        } else if (fib4 <= 3.25) {
-            if (viem_gan_b_man_tinh) {
-                facts += "\n- Xơ hoá nhẹ do viêm gan B";
-            }
-            if (viem_gan_c_man_tinh) {
-                facts += "\n- Xơ hoá nhẹ do viêm gan C";
-            }
-        } else {
-            if (viem_gan_b_man_tinh) {
-                facts += "\n- Xơ hoá nặng do viêm gan B";
-            }
-            if (viem_gan_c_man_tinh) {
-                facts += "\n- Xơ hoá nặng do viêm gan C";
+        }
+        if (bi_viem_gan_c_man_tinh) {
+            if (fiboE <= 7.0) {
+                results += "\n- Xơ hoá nhẹ do viêm gan B";
+            } else if (fiboE <= 9.5) {
+                results += "\n- Xơ hoá đáng kể do viêm gan C";
+            } else if (fiboE <= 12) {
+                results += "\n- Xơ hoá nặng do viêm gan C";
+            } else {
+                xo_gan += "\n- Xơ gan do viêm gan C";
+                f4 = true;
             }
         }
 
-        return facts;
+        // danh gia xo gan
+        if (bi_gan_nhiem_mo && btnCoUongCon.isSelected()) {
+            if ((float) (ast / alt) > 1.0 && !f4) {
+                results += "\n- Nguy cơ xơ gan";
+                f4 = true;
+            } else if ((float) (ast / alt) > 2.0 && bi_gan_nhiem_mo) {
+                xo_gan += "\n- Xơ gan do rượu";
+                f4 = true;
+            }
+        }
+
+        if (f4 && con4.isSelected()) {
+            xo_gan += "\n- Xơ gan còn bù";
+        } else if (f4 && con7.isSelected() && con6.isSelected() && albuminVal.equalsIgnoreCase("Thap")) {
+            xo_gan += "\n- Xơ gan mất bù";
+        } else if (f4 && con1.isSelected() && con3.isSelected() && bilTTVal.equalsIgnoreCase("Cao")) {
+            xo_gan += "\n- Xơ gan mất bù";
+        }
+
+        results += xo_gan;
+
+        String totalRestuls = "\nKết luận:";
+        if (f4) {
+            totalRestuls += " Gan bị xơ giai đoạn f4";
+        } else if (f3) {
+            totalRestuls += " Gan bị xơ hoá giai đoạn f3";
+        } else if(f2){
+            totalRestuls += " Gan bị xơ hoá giai đoạn f2";
+        } else if(bi_gan_nhiem_mo){
+            totalRestuls += " Gan bị nhiễm mỡ";
+        } else {
+            totalRestuls += " Gan bình thường";
+        }
+
+        results += totalRestuls;
+        
+        return results;
     }
 
     void compareRules(String facts, String tiensu) {
@@ -407,8 +482,6 @@ public class MainFrm extends javax.swing.JFrame {
         fbE = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         fbCAP = new javax.swing.JTextField();
-        jLabel58 = new javax.swing.JLabel();
-        inpTuoi = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jCheckBox21 = new javax.swing.JCheckBox();
@@ -645,8 +718,6 @@ public class MainFrm extends javax.swing.JFrame {
 
         jLabel5.setText("CAP (dB/m)");
 
-        jLabel58.setText("Tuổi");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -749,12 +820,7 @@ public class MainFrm extends javax.swing.JFrame {
                                                         .addComponent(ruou4)
                                                         .addGap(46, 46, 46)
                                                         .addComponent(ruou5))
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                            .addComponent(jLabel58)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(inpTuoi))
-                                                        .addComponent(con6, javax.swing.GroupLayout.Alignment.LEADING))))
+                                                    .addComponent(con6)))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(269, 269, 269)
                                                 .addComponent(jLabel24)
@@ -818,9 +884,7 @@ public class MainFrm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(congender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel58)
-                            .addComponent(inpTuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(congender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1390,7 +1454,7 @@ public class MainFrm extends javax.swing.JFrame {
 
         // xet nghiem
         if (coKetQuaXetNghiem) {
-            taFactsResult.append("\nKết luận xét nghiệm:");
+            taFactsResult.append("\nKết qủa xét nghiệm:");
             taFactsResult.append(xuLyKetQuaXetNghiem());
         }
     }//GEN-LAST:event_bnTuVanActionPerformed
@@ -1742,7 +1806,6 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> congender;
     private javax.swing.JTextField fbCAP;
     private javax.swing.JTextField fbE;
-    private javax.swing.JTextField inpTuoi;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1796,7 +1859,6 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
-    private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
