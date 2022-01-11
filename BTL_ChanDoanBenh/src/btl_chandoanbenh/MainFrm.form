@@ -43,7 +43,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="780" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -122,11 +122,6 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="jLabel58" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Component id="inpTuoi" min="-2" pref="57" max="-2" attributes="0"/>
-                                                  </Group>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Component id="jLabel56" min="-2" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -264,7 +259,7 @@
                                               </Group>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -286,7 +281,7 @@
                                       <EmptySpace min="-2" pref="363" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="9" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -337,8 +332,6 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="congender" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel58" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="inpTuoi" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -878,13 +871,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="fbCAP">
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel58">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Tu&#xf4;&#x309;i"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="inpTuoi">
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButton11">
               <Properties>
