@@ -351,11 +351,14 @@ public class MainFrm extends javax.swing.JFrame {
             int bieuhienIndex = bieuhien.lastIndexOf(",");
             String con = bieuhien.substring(0, bieuhienIndex);
             String chandoan = bieuhien.substring(bieuhienIndex + 1).trim();
+            System.out.println("chan doan: " + chandoan);
             if (con.equals(facts)) {
-                System.out.println("ok");
                 for (String rule : rulesListInput) {
-                    int ruleResultIdx = rule.indexOf('"');
-                    String condition = rule.substring(0, ruleResultIdx-1);
+                    if(!rule.contains(chandoan)){
+                        continue;
+                    }
+                    int ruleResultIdx = rule.indexOf("\"");
+                    String condition = rule.substring(0, ruleResultIdx - 1);
 //                    System.out.println(condition);
                     String ruleResult = rule.substring(ruleResultIdx + 1, rule.length()-1).trim(); // lay sau dau ,
                     if (condition.equalsIgnoreCase(chandoan + "," + tiensu)) {
