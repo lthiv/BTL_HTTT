@@ -29,8 +29,8 @@ public class MainFrm extends javax.swing.JFrame {
     public MainFrm() {
         initComponents();
         listModel = new DefaultListModel();
-        rulesListInput = IOFile.readFromFile("tiensubenh.csv");
-        listBieuHien = IOFile.readFromFile("bieuhienbenh.csv");
+        rulesListInput = IOFile.readFromFile("tiensubenh.txt");
+        listBieuHien = IOFile.readFromFile("bieuhienbenh.txt");
     }
 
     void disableGroupUongCon() {
@@ -67,37 +67,37 @@ public class MainFrm extends javax.swing.JFrame {
         String gender = congender.getSelectedItem().toString();
 
         // bieu hien
-        if (con1.isSelected()) {
-            facts += con1.getActionCommand() + ",";
+        if (vangdamat.isSelected()) {
+            facts += vangdamat.getActionCommand() + ",";
         }
-        if (con2.isSelected()) {
-            facts += con2.getActionCommand() + ",";
+        if (phannhatmau.isSelected()) {
+            facts += phannhatmau.getActionCommand() + ",";
         }
-        if (con3.isSelected()) {
-            facts += con3.getActionCommand() + ",";
+        if (nuoctieusammau.isSelected()) {
+            facts += nuoctieusammau.getActionCommand() + ",";
         }
-        if (con4.isSelected()) {
-            facts += con4.getActionCommand() + ",";
+        if (metmoichanan.isSelected()) {
+            facts += metmoichanan.getActionCommand() + ",";
         }
-        if (con5.isSelected()) {
-            facts += con5.getActionCommand() + ",";
+        if (daubungnonmua.isSelected()) {
+            facts += daubungnonmua.getActionCommand() + ",";
         }
-        if (con6.isSelected()) {
-            facts += con6.getActionCommand() + ",";
+        if (chanphune.isSelected()) {
+            facts += chanphune.getActionCommand() + ",";
         }
-        if (con7.isSelected()) {
-            facts += con7.getActionCommand() + ",";
+        if (bungphinh.isSelected()) {
+            facts += bungphinh.getActionCommand() + ",";
         }
-        if (con8.isSelected()) {
-            facts += con8.getActionCommand() + ",";
+        if (nguadamunnhot.isSelected()) {
+            facts += nguadamunnhot.getActionCommand() + ",";
         }
-        if (con9.isSelected()) {
-            facts += con9.getActionCommand() + ",";
+        if (sotnhe.isSelected()) {
+            facts += sotnhe.getActionCommand() + ",";
         }
-        if (con10.isSelected()) {
-            facts += con10.getActionCommand() + ",";
+        if (dautucgan.isSelected()) {
+            facts += dautucgan.getActionCommand() + ",";
         }
-        
+
         int ind = facts.lastIndexOf(",");
         String tempFacts = facts.substring(0, ind);
         return tempFacts;
@@ -106,11 +106,11 @@ public class MainFrm extends javax.swing.JFrame {
     //tien su nguoi dung chon
     String tiensuToString() {
         String tiensu = "";
-        if (con11.isSelected()) {
-            tiensu += con11.getActionCommand() + ",";
+        if (tiensugiadinh.isSelected()) {
+            tiensu += tiensugiadinh.getActionCommand() + ",";
         }
-        if (con12.isSelected()) {
-            tiensu += con12.getActionCommand() + ",";
+        if (tungtruyenmau.isSelected()) {
+            tiensu += tungtruyenmau.getActionCommand() + ",";
         }
 
         if (btnGroupDoUongCon.getSelection() != null) {
@@ -158,11 +158,10 @@ public class MainFrm extends javax.swing.JFrame {
             fiboE = Float.parseFloat(fbE.getText().trim());
             fiboCAP = Float.parseFloat(fbCAP.getText().trim());
 
-        } 
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return "\nThông tin xét nghiệm phải nhập đủ và đúng định dạng";
         }
-        
+
         // alt
         if ((alt < 19.0 && gender.equalsIgnoreCase("Nu")) || (alt < 30.0 && gender.equalsIgnoreCase("Nam")) || (alt < 40.0 && gender.equalsIgnoreCase("Tre em"))) {
             altVal = "Binh thuong";
@@ -190,7 +189,7 @@ public class MainFrm extends javax.swing.JFrame {
         if (ast >= 300) {
             astVal = "Tang cao";
         }
-        
+
         //albumin
         if ((albumin < 3.5 && gender.equalsIgnoreCase("Nu")) || (albumin < 3.5 && gender.equalsIgnoreCase("Nam")) || (albumin < 3.2 && gender.equalsIgnoreCase("Tre em"))) {
             albuminVal = "Thap";
@@ -250,23 +249,22 @@ public class MainFrm extends javax.swing.JFrame {
         }
 
         // gan nhiem mo
-        boolean gan_nhiem_mo = false;
-//        String gan_nhiem_mo = "";
+        String gan_nhiem_mo = "";
         if (fiboCAP <= 233) {
             facts += "\n- Không nhiễm gan nhiễm mỡ";
         } else if (fiboCAP <= 258) {
             facts += "\n- Gan nhiễm mỡ nhẹ";
-            gan_nhiem_mo = true;
+            gan_nhiem_mo = "S1";
         } else if (fiboCAP <= 290) {
             facts += "\n- Gan nhiễm mỡ vừa";
-            gan_nhiem_mo = true;
+            gan_nhiem_mo = "S2";
         } else {
             facts += "\n- Gan nhiễm mỡ nặng";
-            gan_nhiem_mo = true;
+            gan_nhiem_mo = "S3";
         }
 
         // viem gan do ruou
-        if (gan_nhiem_mo) {
+        if (!gan_nhiem_mo.equals("")) {
             if (btnCoUongCon.isSelected()) {
                 facts += " do sử dụng rượu";
 
@@ -278,15 +276,18 @@ public class MainFrm extends javax.swing.JFrame {
 
         // danh gia xo gan
         // fibroscran
-        boolean f4 = false, f3 = false, f2 = false;
+        boolean f4 = false, f3 = false, f2 = false, f1 = false;
         String xo_gan = "";
         if (viem_gan_b_man_tinh) {
             if (fiboE <= 6.0) {
                 facts += "\n- Xơ hoá nhẹ do viêm gan B";
+                f1 = true;
             } else if (fiboE <= 9.0) {
                 facts += "\n- Xơ hoá đáng kể do viêm gan B";
+                f2 = true;
             } else if (fiboE <= 12) {
                 facts += "\n- Xơ hoá nặng do viêm gan B";
+                f3 = true;
             } else {
                 xo_gan += "\n- Xơ gan do viêm gan B";
                 f4 = true;
@@ -294,11 +295,14 @@ public class MainFrm extends javax.swing.JFrame {
         }
         if (viem_gan_c_man_tinh) {
             if (fiboE <= 7.0) {
-                facts += "\n- Xơ hoá nhẹ do viêm gan B";
+                facts += "\n- Xơ hoá nhẹ do viêm gan C";
+                f1 = true;
             } else if (fiboE <= 9.5) {
                 facts += "\n- Xơ hoá đáng kể do viêm gan C";
+                f2 = true;
             } else if (fiboE <= 12) {
                 facts += "\n- Xơ hoá nặng do viêm gan C";
+                f3 = true;
             } else {
                 xo_gan += "\n- Xơ gan do viêm gan C";
                 f4 = true;
@@ -306,22 +310,17 @@ public class MainFrm extends javax.swing.JFrame {
         }
 
         // danh gia xo gan
-        if (gan_nhiem_mo && btnCoUongCon.isSelected()) {
-            if ((float) (ast / alt) > 1.0 && !f4) {
-                facts += "\n- Nguy cơ xơ gan";
-                f4 = true;
-            } else if ((float) (ast / alt) > 2.0 && gan_nhiem_mo) {
-                xo_gan += "\n- Xơ gan do rượu";
-                f4 = true;
-            }
+        if (!gan_nhiem_mo.equals("") && btnCoUongCon.isSelected() && (float) (ast / alt) > 1.0 && !f4) {
+            xo_gan += "\n- Xơ gan do rượu";
+            f4 = true;
         }
 
-        if (f4 && con4.isSelected()) {
+        if (f4 && metmoichanan.isSelected()) {
             xo_gan += "\n- Xơ gan còn bù";
-        } else if (f4 && con7.isSelected() && con6.isSelected() && albuminVal.equalsIgnoreCase("Thap")) {
-            xo_gan += "\n- Xơ gan mất bù";
-        } else if (f4 && con1.isSelected() && con3.isSelected() && bilTTVal.equalsIgnoreCase("Cao")) {
-            xo_gan += "\n- Xơ gan mất bù";
+        } else if (f4 && bungphinh.isSelected() && chanphune.isSelected() && albuminVal.equalsIgnoreCase("Thap")) {
+            xo_gan += "\n- Xơ gan cổ chướng̀";
+        } else if (f4 && vangdamat.isSelected() && nuoctieusammau.isSelected() && bilTTVal.equalsIgnoreCase("Cao")) {
+            xo_gan += "\n- Xơ gan cổ chướng";
         }
 
         facts += xo_gan;
@@ -333,15 +332,15 @@ public class MainFrm extends javax.swing.JFrame {
             totalRestuls += " Gan bị xơ hoá giai đoạn f3";
         } else if(f2){
             totalRestuls += " Gan bị xơ hoá giai đoạn f2";
-        } else if(gan_nhiem_mo){
-            totalRestuls += " Gan bị nhiễm mỡ";
+        } else if(f1){
+            totalRestuls += " Gan bị xơ hoá giai đoạn f1";
+        } else if(!gan_nhiem_mo.equals("")){
+            totalRestuls += " Gan bị nhiễm mỡ giai đoạn " + gan_nhiem_mo;
         } else {
             totalRestuls += " Gan bình thường";
         }
 
-        facts += totalRestuls;
-
-        return facts;
+        return facts + totalRestuls;
     }
 
     void compareRules(String facts, String tiensu) {
@@ -354,13 +353,13 @@ public class MainFrm extends javax.swing.JFrame {
             System.out.println("chan doan: " + chandoan);
             if (con.equals(facts)) {
                 for (String rule : rulesListInput) {
-                    if(!rule.contains(chandoan)){
+                    if (!rule.contains(chandoan)) {
                         continue;
                     }
                     int ruleResultIdx = rule.indexOf("\"");
                     String condition = rule.substring(0, ruleResultIdx - 1);
 //                    System.out.println(condition);
-                    String ruleResult = rule.substring(ruleResultIdx + 1, rule.length()-1).trim(); // lay sau dau ,
+                    String ruleResult = rule.substring(ruleResultIdx + 1, rule.length() - 1).trim(); // lay sau dau ,
                     if (condition.equalsIgnoreCase(chandoan + "," + tiensu)) {
                         // do something
                         taFactsResult.append(ruleResult);
@@ -388,20 +387,20 @@ public class MainFrm extends javax.swing.JFrame {
         btnGroupXetNghiem = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        con1 = new javax.swing.JCheckBox();
-        con11 = new javax.swing.JCheckBox();
+        vangdamat = new javax.swing.JCheckBox();
+        tiensugiadinh = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
-        con3 = new javax.swing.JCheckBox();
-        con4 = new javax.swing.JCheckBox();
-        con5 = new javax.swing.JCheckBox();
-        con7 = new javax.swing.JCheckBox();
-        con6 = new javax.swing.JCheckBox();
-        con8 = new javax.swing.JCheckBox();
-        con9 = new javax.swing.JCheckBox();
-        con10 = new javax.swing.JCheckBox();
+        nuoctieusammau = new javax.swing.JCheckBox();
+        metmoichanan = new javax.swing.JCheckBox();
+        daubungnonmua = new javax.swing.JCheckBox();
+        bungphinh = new javax.swing.JCheckBox();
+        chanphune = new javax.swing.JCheckBox();
+        nguadamunnhot = new javax.swing.JCheckBox();
+        sotnhe = new javax.swing.JCheckBox();
+        dautucgan = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
-        con2 = new javax.swing.JCheckBox();
-        con12 = new javax.swing.JCheckBox();
+        phannhatmau = new javax.swing.JCheckBox();
+        tungtruyenmau = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         congender = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
@@ -455,35 +454,35 @@ public class MainFrm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        con1.setText("Vang da; mat");
+        vangdamat.setText("Vang da; mat");
 
-        con11.setText("Gia dinh co nguoi bi benh gan");
+        tiensugiadinh.setText("Gia dinh co nguoi bi benh gan");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Các triệu chứng");
 
-        con3.setText("Nuoc tieu sam mau");
+        nuoctieusammau.setText("Nuoc tieu sam mau");
 
-        con4.setText("Met moi; chan an; roi loan tieu hoa");
+        metmoichanan.setText("Met moi; chan an; roi loan tieu hoa");
 
-        con5.setText("Dau bung; non mua");
+        daubungnonmua.setText("Dau bung; non mua");
 
-        con7.setText("Bung phinh");
+        bungphinh.setText("Bung phinh");
 
-        con6.setText("Chan phu ne");
+        chanphune.setText("Chan phu ne");
 
-        con8.setText("Ngua da; me day; mun nhot");
+        nguadamunnhot.setText("Ngua da; me day; mun nhot");
 
-        con9.setText("Sot nhe");
+        sotnhe.setText("Sot nhe");
 
-        con10.setText("Dau tuc hay kho chiu vung gan (vung bung ben phai)");
+        dautucgan.setText("Dau tuc hay kho chiu vung gan (vung bung ben phai)");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Tiền sử");
 
-        con2.setText("Phan nhat mau");
+        phannhatmau.setText("Phan nhat mau");
 
-        con12.setText("Tung truyen mau");
+        tungtruyenmau.setText("Tung truyen mau");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Thông tin");
@@ -677,13 +676,13 @@ public class MainFrm extends javax.swing.JFrame {
                                         .addGap(32, 32, 32))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(con12, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tungtruyenmau, javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel6)
                                                 .addGap(66, 66, 66)
                                                 .addComponent(congender, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(con11, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tiensugiadinh, javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                                 .addGap(8, 8, 8)
                                                 .addComponent(jLabel36)))
@@ -695,11 +694,11 @@ public class MainFrm extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(94, 94, 94)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(con10)
+                                                    .addComponent(dautucgan)
                                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                         .addComponent(jRadioButton11)
-                                                        .addComponent(con5))
-                                                    .addComponent(con4)))
+                                                        .addComponent(daubungnonmua))
+                                                    .addComponent(metmoichanan)))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(18, 18, 18)
                                                 .addComponent(ruou1)
@@ -767,15 +766,15 @@ public class MainFrm extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(con1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(con2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(con3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(con9))
+                                            .addComponent(vangdamat, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(phannhatmau, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(nuoctieusammau, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(sotnhe))
                                 .addGap(92, 92, 92)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(con7)
-                                    .addComponent(con6)
-                                    .addComponent(con8))
+                                    .addComponent(bungphinh)
+                                    .addComponent(chanphune)
+                                    .addComponent(nguadamunnhot))
                                 .addGap(363, 363, 363)))
                         .addContainerGap(9, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -808,16 +807,16 @@ public class MainFrm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(con6)
-                            .addComponent(con10))
+                            .addComponent(chanphune)
+                            .addComponent(dautucgan))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(con7)
-                            .addComponent(con4))
+                            .addComponent(bungphinh)
+                            .addComponent(metmoichanan))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(con8)
-                            .addComponent(con5))
+                            .addComponent(nguadamunnhot)
+                            .addComponent(daubungnonmua))
                         .addGap(60, 60, 60)
                         .addComponent(jRadioButton11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -829,23 +828,23 @@ public class MainFrm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(con1)
+                        .addComponent(vangdamat)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(con2)
+                        .addComponent(phannhatmau)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(con3)
+                        .addComponent(nuoctieusammau)
                         .addGap(3, 3, 3)
-                        .addComponent(con9)
+                        .addComponent(sotnhe)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(con11)
+                            .addComponent(tiensugiadinh)
                             .addComponent(jLabel55)
                             .addComponent(btnCoUongCon))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(con12)
+                            .addComponent(tungtruyenmau)
                             .addComponent(jLabel56)
                             .addComponent(ruou1)
                             .addComponent(ruou2))))
@@ -966,7 +965,7 @@ public class MainFrm extends javax.swing.JFrame {
         // lam sang
         String facts = convertSelectionToString();
         String tiensu = tiensuToString();
-        System.out.println("input: " + facts + ","+ tiensu);
+        System.out.println("input: " + facts + "," + tiensu);
         compareRules(facts, tiensu);
 
         // xet nghiem
@@ -1018,24 +1017,16 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroupDoUongCon;
     private javax.swing.ButtonGroup btnGroupThoiGianUong;
     private javax.swing.ButtonGroup btnGroupXetNghiem;
+    private javax.swing.JCheckBox bungphinh;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup5;
     private javax.swing.ButtonGroup buttonGroup6;
     private javax.swing.ButtonGroup buttonGroup7;
     private javax.swing.ButtonGroup buttonGroup8;
-    private javax.swing.JCheckBox con1;
-    private javax.swing.JCheckBox con10;
-    private javax.swing.JCheckBox con11;
-    private javax.swing.JCheckBox con12;
-    private javax.swing.JCheckBox con2;
-    private javax.swing.JCheckBox con3;
-    private javax.swing.JCheckBox con4;
-    private javax.swing.JCheckBox con5;
-    private javax.swing.JCheckBox con6;
-    private javax.swing.JCheckBox con7;
-    private javax.swing.JCheckBox con8;
-    private javax.swing.JCheckBox con9;
+    private javax.swing.JCheckBox chanphune;
     private javax.swing.JComboBox<String> congender;
+    private javax.swing.JCheckBox daubungnonmua;
+    private javax.swing.JCheckBox dautucgan;
     private javax.swing.JTextField fbCAP;
     private javax.swing.JTextField fbE;
     private javax.swing.JLabel jLabel1;
@@ -1069,6 +1060,10 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton11;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JCheckBox metmoichanan;
+    private javax.swing.JCheckBox nguadamunnhot;
+    private javax.swing.JCheckBox nuoctieusammau;
+    private javax.swing.JCheckBox phannhatmau;
     private javax.swing.JRadioButton ruou1;
     private javax.swing.JRadioButton ruou2;
     private javax.swing.JRadioButton ruou3;
@@ -1076,7 +1071,11 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JRadioButton ruou5;
     private javax.swing.JRadioButton selectKhongXetNghiem;
     private javax.swing.JRadioButton selectXetNghiem;
+    private javax.swing.JCheckBox sotnhe;
     private javax.swing.JTextArea taFactsResult;
+    private javax.swing.JCheckBox tiensugiadinh;
+    private javax.swing.JCheckBox tungtruyenmau;
+    private javax.swing.JCheckBox vangdamat;
     private javax.swing.JTextField xn1;
     private javax.swing.JComboBox<String> xn10;
     private javax.swing.JComboBox<String> xn11;

@@ -114,14 +114,14 @@
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Group type="103" groupAlignment="1" attributes="0">
-                                                  <Component id="con12" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="tungtruyenmau" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                                                       <Component id="congender" min="-2" pref="116" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Component id="con11" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="tiensugiadinh" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                                       <Component id="jLabel36" min="-2" max="-2" attributes="0"/>
@@ -137,12 +137,12 @@
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="con10" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="dautucgan" min="-2" max="-2" attributes="0"/>
                                                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                                               <Component id="jRadioButton11" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="con5" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="daubungnonmua" min="-2" max="-2" attributes="0"/>
                                                           </Group>
-                                                          <Component id="con4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="metmoichanan" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                                   <Group type="102" alignment="0" attributes="0">
@@ -228,18 +228,18 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                  <Component id="con1" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
-                                                  <Component id="con2" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
+                                                  <Component id="vangdamat" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                                                  <Component id="phannhatmau" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="con3" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
+                                              <Component id="nuoctieusammau" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="con9" min="-2" max="-2" attributes="0"/>
+                                          <Component id="sotnhe" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="con7" min="-2" max="-2" attributes="0"/>
-                                          <Component id="con6" min="-2" max="-2" attributes="0"/>
-                                          <Component id="con8" min="-2" max="-2" attributes="0"/>
+                                          <Component id="bungphinh" min="-2" max="-2" attributes="0"/>
+                                          <Component id="chanphune" min="-2" max="-2" attributes="0"/>
+                                          <Component id="nguadamunnhot" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="363" max="-2" attributes="0"/>
                                   </Group>
@@ -286,18 +286,18 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="con6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="con10" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chanphune" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dautucgan" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="con7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="con4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="bungphinh" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="metmoichanan" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="con8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="con5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="nguadamunnhot" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="daubungnonmua" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                               <Component id="jRadioButton11" min="-2" max="-2" attributes="0"/>
@@ -312,24 +312,24 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="con1" min="-2" max="-2" attributes="0"/>
+                              <Component id="vangdamat" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="con2" min="-2" max="-2" attributes="0"/>
+                              <Component id="phannhatmau" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="con3" min="-2" max="-2" attributes="0"/>
+                              <Component id="nuoctieusammau" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                              <Component id="con9" min="-2" max="-2" attributes="0"/>
+                              <Component id="sotnhe" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="con11" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tiensugiadinh" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel55" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnCoUongCon" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="con12" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tungtruyenmau" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel56" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ruou1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ruou2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -400,12 +400,12 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JCheckBox" name="con1">
+            <Component class="javax.swing.JCheckBox" name="vangdamat">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Vang da; mat"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con11">
+            <Component class="javax.swing.JCheckBox" name="tiensugiadinh">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Gia dinh co nguoi bi benh gan"/>
               </Properties>
@@ -418,42 +418,42 @@
                 <Property name="text" type="java.lang.String" value="C&#xe1;c tri&#x1ec7;u ch&#x1ee9;ng"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con3">
+            <Component class="javax.swing.JCheckBox" name="nuoctieusammau">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nuoc tieu sam mau"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con4">
+            <Component class="javax.swing.JCheckBox" name="metmoichanan">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Met moi; chan an; roi loan tieu hoa"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con5">
+            <Component class="javax.swing.JCheckBox" name="daubungnonmua">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Dau bung; non mua"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con7">
+            <Component class="javax.swing.JCheckBox" name="bungphinh">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Bung phinh"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con6">
+            <Component class="javax.swing.JCheckBox" name="chanphune">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Chan phu ne"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con8">
+            <Component class="javax.swing.JCheckBox" name="nguadamunnhot">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ngua da; me day; mun nhot"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con9">
+            <Component class="javax.swing.JCheckBox" name="sotnhe">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sot nhe"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con10">
+            <Component class="javax.swing.JCheckBox" name="dautucgan">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Dau tuc hay kho chiu vung gan (vung bung ben phai)"/>
               </Properties>
@@ -466,12 +466,12 @@
                 <Property name="text" type="java.lang.String" value="Ti&#x1ec1;n s&#x1eed;"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con2">
+            <Component class="javax.swing.JCheckBox" name="phannhatmau">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Phan nhat mau"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="con12">
+            <Component class="javax.swing.JCheckBox" name="tungtruyenmau">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tung truyen mau"/>
               </Properties>
