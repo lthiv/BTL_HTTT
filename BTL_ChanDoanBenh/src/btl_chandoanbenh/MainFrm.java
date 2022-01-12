@@ -336,8 +336,12 @@ public class MainFrm extends javax.swing.JFrame {
             totalRestuls += " Gan bị xơ hoá giai đoạn f1";
         } else if(!gan_nhiem_mo.equals("")){
             totalRestuls += " Gan bị nhiễm mỡ giai đoạn " + gan_nhiem_mo;
+        } else if(!viem_gan_b.equals("")){
+            totalRestuls += " " + viem_gan_b;
+        } else if(!viem_gan_c.equals("")){
+            totalRestuls += " " + viem_gan_c;
         } else {
-            totalRestuls += " Gan bình thường";
+            totalRestuls += " Gan hoạt động bình thường";
         }
 
         return facts + totalRestuls;
