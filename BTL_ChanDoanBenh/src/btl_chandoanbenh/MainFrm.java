@@ -1059,7 +1059,6 @@ public class MainFrm extends javax.swing.JFrame {
 
     private void bnTuVanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnTuVanActionPerformed
         // lam sang
-
         String facts = "";
         String tiensu = "";
         
@@ -1072,7 +1071,10 @@ public class MainFrm extends javax.swing.JFrame {
         else if(!facts.equals("") && tiensu.equals("")){
             JOptionPane.showMessageDialog(this, "Hãy chọn ít nhất 1 tiền sử!");
         }
-
+        
+        else if(facts.equals("") && !tiensu.equals("")){
+            JOptionPane.showMessageDialog(this, "Hãy chọn ít nhất 1 biểu hiện!");
+        }
         // xet nghiem
         if (coKetQuaXetNghiem) {
             taFactsResult.append("\nKết luận xét nghiệm:");
