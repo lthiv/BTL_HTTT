@@ -20,32 +20,32 @@ import utils.IOFile;
  * @author Admin 88
  */
 public class MainFrm extends javax.swing.JFrame {
-    
+
     ArrayList<String> rulesListInput;
     ArrayList<String> listBieuHien;
     String factsResult;
-    
+
     boolean coKetQuaXetNghiem = false;
     DefaultListModel listModel;
-    
+
     public MainFrm() {
         initComponents();
         listModel = new DefaultListModel();
         rulesListInput = IOFile.readFromFile("tiensubenh.txt");
         listBieuHien = IOFile.readFromFile("bieuhienbenh.txt");
     }
-    
+
     void disableGroupUongCon() {
         btnGroupThoiGianUong.clearSelection();
         btnGroupCachThucUong.clearSelection();
-        
+
         ruou1.setEnabled(false);
         ruou2.setEnabled(false);
         ruou3.setEnabled(false);
         ruou4.setEnabled(false);
         ruou5.setEnabled(false);
     }
-    
+
     void enableGroupUongCon() {
         ruou1.setEnabled(true);
         ruou2.setEnabled(true);
@@ -65,7 +65,7 @@ public class MainFrm extends javax.swing.JFrame {
     // bieu hien nguoi dung chon
     String convertSelectionToString() {
         String facts = "";
-        
+
         String gender = congender.getSelectedItem().toString();
 
         // bieu hien
@@ -99,7 +99,7 @@ public class MainFrm extends javax.swing.JFrame {
         if (dautucgan.isSelected()) {
             facts += dautucgan.getActionCommand() + ",";
         }
-        
+
         int ind = facts.lastIndexOf(",");
         String tempFacts = facts.substring(0, ind);
         return tempFacts;
@@ -114,16 +114,16 @@ public class MainFrm extends javax.swing.JFrame {
         if (tungtruyenmau.isSelected()) {
             tiensu += tungtruyenmau.getActionCommand() + ",";
         }
-        
+
         if (btnGroupDoUongCon.getSelection() != null) {
             System.out.println(btnGroupDoUongCon.getSelection().getActionCommand());
             tiensu += "Su dung do uong co con " + btnGroupDoUongCon.getSelection().getActionCommand() + ",";
         }
-        
+
         if (btnGroupThoiGianUong.getSelection() != null) {
             tiensu += "Thoi gian uong " + btnGroupThoiGianUong.getSelection().getActionCommand() + ",";
         }
-        
+
         if (btnGroupCachThucUong.getSelection() != null) {
             tiensu += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
         }
@@ -135,7 +135,7 @@ public class MainFrm extends javax.swing.JFrame {
     // ket qua xet nghiem
     String xuLyKetQuaXetNghiem() {
         String facts = "";
-        
+
         String gender = congender.getSelectedItem().toString();
 
         // xet nghiem
@@ -149,9 +149,9 @@ public class MainFrm extends javax.swing.JFrame {
         String hbeag = xn9.getSelectedItem().toString();
         String antihcv = xn10.getSelectedItem().toString();
         String hcvrna = xn11.getSelectedItem().toString();
-        
+
         float ast, alt, bilTT, albumin, fiboE, fiboCAP;
-        
+
         // bat ngoai le
         try {
             ast = Float.parseFloat(astVal);
@@ -331,7 +331,7 @@ public class MainFrm extends javax.swing.JFrame {
         if (!gan_nhiem_mo.equals("")) {
             if (btnCoUongCon.isSelected()) {
                 facts += " do sử dụng rượu";
-                
+
                 if (!astVal.equals("Binh thuong") && (float) (1.0 * ast / alt) > 2.0) {
                     facts += "\n- Viêm gan do rượu";
                 }
@@ -378,7 +378,7 @@ public class MainFrm extends javax.swing.JFrame {
             xo_gan += "\n- Xơ gan do rượu";
             f4 = true;
         }
-        
+
         if (f4 && metmoichanan.isSelected()) {
             xo_gan += "\n- Xơ gan còn bù";
         } else if (f4 && bungphinh.isSelected() && chanphune.isSelected() && albuminVal.equalsIgnoreCase("Thap")) {
@@ -386,9 +386,9 @@ public class MainFrm extends javax.swing.JFrame {
         } else if (f4 && vangdamat.isSelected() && nuoctieusammau.isSelected() && bilTTVal.equalsIgnoreCase("Cao")) {
             xo_gan += "\n- Xơ gan cổ chướng";
         }
-        
+
         facts += xo_gan;
-        
+
         String totalRestuls = "\nKết luận:";
         if (f4) {
             totalRestuls += " Gan bị xơ giai đoạn f4";
@@ -404,16 +404,23 @@ public class MainFrm extends javax.swing.JFrame {
             totalRestuls += " " + viem_gan_b;
         } else if (!viem_gan_c.equals("")) {
             totalRestuls += " " + viem_gan_c;
-        } else if (!astVal.equals("Binh thuong") || !altVal.equalsIgnoreCase("Binh thuong") 
-                || !albuminVal.equalsIgnoreCase("Binh thuong") || !bilTTVal.equalsIgnoreCase("Binh thuong")) {
-            totalRestuls += " Gan hoạt động bình thường, tuy nhiên các chỉ số cho thấy gan đang có dấu hiệu tổn thương, cần theo dõi thêm";
+        } else if (!astVal.equals("Binh thuong") || !altVal.equalsIgnoreCase("Binh thuong")) {
+            if (astVal.equalsIgnoreCase("Tang nhe")) {
+                totalRestuls += " Nghi ngờ viêm gan virus cấp, cần theo dõi thêm";
+            } else if (astVal.equalsIgnoreCase("Tang vua")) {
+                totalRestuls += " Nghi ngờ gan nhiễm mỡ, cần theo dõi thêm";
+            } else if (astVal.equalsIgnoreCase("Tang cao") || (float)(2.0 * ast / alt) >= 2.0) {
+                totalRestuls += " Nghi ngờ xơ gan, cần theo dõi thêm";
+            }
+        } else if (!bilTTVal.equalsIgnoreCase("Binh thuong") || !albuminVal.equalsIgnoreCase("Binh thuong")) {
+            totalRestuls += " Nghi ngờ xơ gan, cần theo dõi thêm";
         } else {
             totalRestuls += " Gan hoạt động bình thường";
         }
-        
+
         return facts + totalRestuls;
     }
-    
+
     void compareRules(String facts, String tiensu) {
 //        System.out.println(facts);
         taFactsResult.setText("Kết quả lâm sàng: ");
@@ -439,10 +446,10 @@ public class MainFrm extends javax.swing.JFrame {
                 }
             }
         }
-        
+
         taFactsResult.append("Nhập thêm thông tin để tư vấn");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
