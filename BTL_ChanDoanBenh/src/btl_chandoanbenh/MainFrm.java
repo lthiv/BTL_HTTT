@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package btl_chandoanbenh;
 
 import java.io.FileWriter;
@@ -15,10 +10,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import utils.IOFile;
 
-/**
- *
- * @author Admin 88
- */
 public class MainFrm extends javax.swing.JFrame {
 
     ArrayList<String> rulesListInput;
@@ -133,6 +124,36 @@ public class MainFrm extends javax.swing.JFrame {
         return tiensu;
     }
 
+    // so sanh bieu hien, tieu su
+    void compareRules(String facts, String tiensu) {
+//        System.out.println(facts);
+        taFactsResult.setText("Kết quả lâm sàng: ");
+        for (String bieuhien : listBieuHien) {
+            int bieuhienIndex = bieuhien.lastIndexOf(",");
+            String con = bieuhien.substring(0, bieuhienIndex);
+            String chandoan = bieuhien.substring(bieuhienIndex + 1).trim();
+//            System.out.println("chan doan: " + chandoan);
+            if (con.equals(facts)) {
+                for (String rule : rulesListInput) {
+                    if (!rule.contains(chandoan)) {
+                        continue;
+                    }
+                    int ruleResultIdx = rule.indexOf("\"");
+                    String condition = rule.substring(0, ruleResultIdx - 1);
+//                    System.out.println(condition);
+                    String ruleResult = rule.substring(ruleResultIdx + 1, rule.length() - 1).trim(); // lay sau dau ,
+                    if (condition.equalsIgnoreCase(chandoan + "," + tiensu)) {
+                        // do something
+                        taFactsResult.append(ruleResult);
+                        return;
+                    }
+                }
+            }
+        }
+
+        taFactsResult.append("Nhập thêm thông tin để tư vấn");
+    }
+    
     // ket qua xet nghiem
     String xuLyKetQuaXetNghiem() {
         String facts = "";
@@ -422,35 +443,6 @@ public class MainFrm extends javax.swing.JFrame {
         return facts + totalRestuls;
     }
 
-    void compareRules(String facts, String tiensu) {
-//        System.out.println(facts);
-        taFactsResult.setText("Kết quả lâm sàng: ");
-        for (String bieuhien : listBieuHien) {
-            int bieuhienIndex = bieuhien.lastIndexOf(",");
-            String con = bieuhien.substring(0, bieuhienIndex);
-            String chandoan = bieuhien.substring(bieuhienIndex + 1).trim();
-//            System.out.println("chan doan: " + chandoan);
-            if (con.equals(facts)) {
-                for (String rule : rulesListInput) {
-                    if (!rule.contains(chandoan)) {
-                        continue;
-                    }
-                    int ruleResultIdx = rule.indexOf("\"");
-                    String condition = rule.substring(0, ruleResultIdx - 1);
-//                    System.out.println(condition);
-                    String ruleResult = rule.substring(ruleResultIdx + 1, rule.length() - 1).trim(); // lay sau dau ,
-                    if (condition.equalsIgnoreCase(chandoan + "," + tiensu)) {
-                        // do something
-                        taFactsResult.append(ruleResult);
-                        return;
-                    }
-                }
-            }
-        }
-
-        taFactsResult.append("Nhập thêm thông tin để tư vấn");
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -530,7 +522,7 @@ public class MainFrm extends javax.swing.JFrame {
         jRadioButton11 = new javax.swing.JRadioButton();
         btnCoUongCon = new javax.swing.JRadioButton();
         jLabel36 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -716,15 +708,10 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel36.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel36.setText("* phải chọn cả triệu chứng và tiền sử");
 
-        jButton1.setText("Nhập lại");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnReset.setText("Nhập lại");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnResetActionPerformed(evt);
             }
         });
 
@@ -890,7 +877,7 @@ public class MainFrm extends javax.swing.JFrame {
                                     .addComponent(jLabel26))
                                 .addGap(43, 43, 43)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1)
+                                    .addComponent(btnReset)
                                     .addComponent(jLabel19))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -992,7 +979,7 @@ public class MainFrm extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bnTuVan)
-                    .addComponent(jButton1))
+                    .addComponent(btnReset))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1061,6 +1048,7 @@ public class MainFrm extends javax.swing.JFrame {
         // lam sang
         String facts = "";
         String tiensu = "";
+        taFactsResult.setText("");
         
         facts = convertSelectionToString();
         tiensu = tiensuToString();
@@ -1082,7 +1070,7 @@ public class MainFrm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bnTuVanActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         //gender
         congender.setSelectedItem("Nam");
 
@@ -1123,11 +1111,7 @@ public class MainFrm extends javax.swing.JFrame {
         
         //result
         taFactsResult.setText("");
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1171,6 +1155,7 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroupDoUongCon;
     private javax.swing.ButtonGroup btnGroupThoiGianUong;
     private javax.swing.ButtonGroup btnGroupXetNghiem;
+    private javax.swing.JButton btnReset;
     private javax.swing.JCheckBox bungphinh;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup5;
@@ -1183,7 +1168,6 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JCheckBox dautucgan;
     private javax.swing.JTextField fbCAP;
     private javax.swing.JTextField fbE;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
