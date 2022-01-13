@@ -54,14 +54,6 @@ public class MainFrm extends javax.swing.JFrame {
         ruou5.setEnabled(true);
     }
 
-//    void showAllRule() {
-//        rulesListInput = IOFile.readFromFile("rules.csv");
-//        listModel = new DefaultListModel();
-//        for (String item : rulesListInput) {
-//            listModel.addElement(item);
-//        }
-//        jList1.setModel(listModel);
-//    }
     // bieu hien nguoi dung chon
     String convertSelectionToString() {
         String facts = "";
@@ -101,7 +93,13 @@ public class MainFrm extends javax.swing.JFrame {
         }
 
         int ind = facts.lastIndexOf(",");
-        String tempFacts = facts.substring(0, ind);
+        String tempFacts;
+        try{
+            tempFacts = facts.substring(0, ind);
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Phải chọn ít nhất 1 biểu hiện", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
         return tempFacts;
     }
 
@@ -128,7 +126,13 @@ public class MainFrm extends javax.swing.JFrame {
             tiensu += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
         }
         int index = tiensu.lastIndexOf(",");
-        String temp = tiensu.substring(0, index);
+        String temp;
+        try{
+            temp = tiensu.substring(0, index);
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Phải chọn ít nhất 1 tiền sử bệnh", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
         return temp;
     }
 
@@ -1043,8 +1047,10 @@ public class MainFrm extends javax.swing.JFrame {
         // lam sang
         String facts = convertSelectionToString();
         String tiensu = tiensuToString();
-        System.out.println("input: " + facts + "," + tiensu);
-        compareRules(facts, tiensu);
+//        System.out.println("input: " + facts + "," + tiensu);
+        if(!facts.equals("") && !tiensu.equals("")){
+            compareRules(facts, tiensu);
+        }
 
         // xet nghiem
         if (coKetQuaXetNghiem) {
