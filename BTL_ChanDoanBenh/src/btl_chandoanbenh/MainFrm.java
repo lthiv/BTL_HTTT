@@ -20,32 +20,32 @@ import utils.IOFile;
  * @author Admin 88
  */
 public class MainFrm extends javax.swing.JFrame {
-    
+
     ArrayList<String> rulesListInput;
     ArrayList<String> listBieuHien;
     String factsResult;
-    
+
     boolean coKetQuaXetNghiem = false;
     DefaultListModel listModel;
-    
+
     public MainFrm() {
         initComponents();
         listModel = new DefaultListModel();
         rulesListInput = IOFile.readFromFile("tiensubenh.txt");
         listBieuHien = IOFile.readFromFile("bieuhienbenh.txt");
     }
-    
+
     void disableGroupUongCon() {
         btnGroupThoiGianUong.clearSelection();
         btnGroupCachThucUong.clearSelection();
-        
+
         ruou1.setEnabled(false);
         ruou2.setEnabled(false);
         ruou3.setEnabled(false);
         ruou4.setEnabled(false);
         ruou5.setEnabled(false);
     }
-    
+
     void enableGroupUongCon() {
         ruou1.setEnabled(true);
         ruou2.setEnabled(true);
@@ -65,7 +65,7 @@ public class MainFrm extends javax.swing.JFrame {
     // bieu hien nguoi dung chon
     String convertSelectionToString() {
         String facts = "";
-        
+
         String gender = congender.getSelectedItem().toString();
 
         // bieu hien
@@ -99,10 +99,13 @@ public class MainFrm extends javax.swing.JFrame {
         if (dautucgan.isSelected()) {
             facts += dautucgan.getActionCommand() + ",";
         }
-        
-        int ind = facts.lastIndexOf(",");
-        String tempFacts = facts.substring(0, ind);
-        return tempFacts;
+
+        if (!facts.equals("")) {
+            int ind = facts.lastIndexOf(",");
+            String tempFacts = facts.substring(0, ind);
+            return tempFacts;
+        }
+        return facts;
     }
 
     //tien su nguoi dung chon
@@ -114,28 +117,33 @@ public class MainFrm extends javax.swing.JFrame {
         if (tungtruyenmau.isSelected()) {
             tiensu += tungtruyenmau.getActionCommand() + ",";
         }
-        
+
         if (btnGroupDoUongCon.getSelection() != null) {
             System.out.println(btnGroupDoUongCon.getSelection().getActionCommand());
             tiensu += "Su dung do uong co con " + btnGroupDoUongCon.getSelection().getActionCommand() + ",";
         }
-        
+
         if (btnGroupThoiGianUong.getSelection() != null) {
             tiensu += "Thoi gian uong " + btnGroupThoiGianUong.getSelection().getActionCommand() + ",";
         }
-        
+
         if (btnGroupCachThucUong.getSelection() != null) {
             tiensu += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
         }
-        int index = tiensu.lastIndexOf(",");
-        String temp = tiensu.substring(0, index);
-        return temp;
+
+        if (!tiensu.equals("")) {
+//            JOptionPane.showMessageDialog(this, "Hãy chọn ít nhất 1 tiền sử!");
+            int index = tiensu.lastIndexOf(",");
+            String temp = tiensu.substring(0, index);
+            return temp;
+        }
+        return tiensu;
     }
 
     // ket qua xet nghiem
     String xuLyKetQuaXetNghiem() {
         String facts = "";
-        
+
         String gender = congender.getSelectedItem().toString();
 
         // xet nghiem
@@ -149,9 +157,9 @@ public class MainFrm extends javax.swing.JFrame {
         String hbeag = xn9.getSelectedItem().toString();
         String antihcv = xn10.getSelectedItem().toString();
         String hcvrna = xn11.getSelectedItem().toString();
-        
+
         float ast, alt, bilTT, albumin, fiboE, fiboCAP;
-        
+
         // bat ngoai le
         try {
             ast = Float.parseFloat(astVal);
@@ -331,7 +339,7 @@ public class MainFrm extends javax.swing.JFrame {
         if (!gan_nhiem_mo.equals("")) {
             if (btnCoUongCon.isSelected()) {
                 facts += " do sử dụng rượu";
-                
+
                 if (!astVal.equals("Binh thuong") && (float) (1.0 * ast / alt) > 2.0) {
                     facts += "\n- Viêm gan do rượu";
                 }
@@ -378,7 +386,7 @@ public class MainFrm extends javax.swing.JFrame {
             xo_gan += "\n- Xơ gan do rượu";
             f4 = true;
         }
-        
+
         if (f4 && metmoichanan.isSelected()) {
             xo_gan += "\n- Xơ gan còn bù";
         } else if (f4 && bungphinh.isSelected() && chanphune.isSelected() && albuminVal.equalsIgnoreCase("Thap")) {
@@ -386,9 +394,9 @@ public class MainFrm extends javax.swing.JFrame {
         } else if (f4 && vangdamat.isSelected() && nuoctieusammau.isSelected() && bilTTVal.equalsIgnoreCase("Cao")) {
             xo_gan += "\n- Xơ gan cổ chướng";
         }
-        
+
         facts += xo_gan;
-        
+
         String totalRestuls = "\nKết luận:";
         if (f4) {
             totalRestuls += " Gan bị xơ giai đoạn f4";
@@ -404,16 +412,16 @@ public class MainFrm extends javax.swing.JFrame {
             totalRestuls += " " + viem_gan_b;
         } else if (!viem_gan_c.equals("")) {
             totalRestuls += " " + viem_gan_c;
-        } else if (!astVal.equals("Binh thuong") || !altVal.equalsIgnoreCase("Binh thuong") 
+        } else if (!astVal.equals("Binh thuong") || !altVal.equalsIgnoreCase("Binh thuong")
                 || !albuminVal.equalsIgnoreCase("Binh thuong") || !bilTTVal.equalsIgnoreCase("Binh thuong")) {
             totalRestuls += " Gan hoạt động bình thường, tuy nhiên các chỉ số cho thấy gan đang có dấu hiệu tổn thương, cần theo dõi thêm";
         } else {
             totalRestuls += " Gan hoạt động bình thường";
         }
-        
+
         return facts + totalRestuls;
     }
-    
+
     void compareRules(String facts, String tiensu) {
 //        System.out.println(facts);
         taFactsResult.setText("Kết quả lâm sàng: ");
@@ -421,7 +429,7 @@ public class MainFrm extends javax.swing.JFrame {
             int bieuhienIndex = bieuhien.lastIndexOf(",");
             String con = bieuhien.substring(0, bieuhienIndex);
             String chandoan = bieuhien.substring(bieuhienIndex + 1).trim();
-            System.out.println("chan doan: " + chandoan);
+//            System.out.println("chan doan: " + chandoan);
             if (con.equals(facts)) {
                 for (String rule : rulesListInput) {
                     if (!rule.contains(chandoan)) {
@@ -439,10 +447,10 @@ public class MainFrm extends javax.swing.JFrame {
                 }
             }
         }
-        
+
         taFactsResult.append("Nhập thêm thông tin để tư vấn");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -522,6 +530,7 @@ public class MainFrm extends javax.swing.JFrame {
         jRadioButton11 = new javax.swing.JRadioButton();
         btnCoUongCon = new javax.swing.JRadioButton();
         jLabel36 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -613,6 +622,7 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel26.setText("Kết quả");
 
+        taFactsResult.setEditable(false);
         taFactsResult.setColumns(20);
         taFactsResult.setLineWrap(true);
         taFactsResult.setRows(5);
@@ -706,30 +716,37 @@ public class MainFrm extends javax.swing.JFrame {
         jLabel36.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel36.setText("* phải chọn cả triệu chứng và tiền sử");
 
+        jButton1.setText("Nhập lại");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(183, 183, 183)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(179, 179, 179)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(fbCAP, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(183, 183, 183)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(179, 179, 179)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fbCAP, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fbE, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fbE, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 298, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -834,27 +851,28 @@ public class MainFrm extends javax.swing.JFrame {
                                         .addComponent(jLabel17)))
                                 .addGap(0, 311, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(vangdamat, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(phannhatmau, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(nuoctieusammau, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(sotnhe))
-                                .addGap(92, 92, 92)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(bungphinh)
-                                    .addComponent(chanphune)
-                                    .addComponent(nguadamunnhot))
-                                .addGap(363, 363, 363)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(vangdamat, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(phannhatmau, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(nuoctieusammau, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(sotnhe))
+                                        .addGap(92, 92, 92)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(bungphinh)
+                                            .addComponent(chanphune)
+                                            .addComponent(nguadamunnhot))
+                                        .addGap(363, 363, 363))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(93, 93, 93)))))
                         .addContainerGap(9, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bnTuVan, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel26))
-                        .addGap(0, 694, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel18)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -867,8 +885,13 @@ public class MainFrm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(xn8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(116, 116, 116)
-                                .addComponent(jLabel19)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bnTuVan, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel26))
+                                .addGap(43, 43, 43)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1)
+                                    .addComponent(jLabel19))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -967,12 +990,14 @@ public class MainFrm extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(fbCAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
-                .addComponent(bnTuVan)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bnTuVan)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Tư vấn", jPanel1);
@@ -1034,10 +1059,18 @@ public class MainFrm extends javax.swing.JFrame {
 
     private void bnTuVanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnTuVanActionPerformed
         // lam sang
-        String facts = convertSelectionToString();
-        String tiensu = tiensuToString();
-        System.out.println("input: " + facts + "," + tiensu);
-        compareRules(facts, tiensu);
+        String facts = "";
+        String tiensu = "";
+        
+        facts = convertSelectionToString();
+        tiensu = tiensuToString();
+        if (!facts.equals("") && !tiensu.equals("")) {
+            System.out.println("input: " + facts + "," + tiensu);
+            compareRules(facts, tiensu);
+        }
+        else if(!facts.equals("") && tiensu.equals("")){
+            JOptionPane.showMessageDialog(this, "Hãy chọn ít nhất 1 tiền sử!");
+        }
 
         // xet nghiem
         if (coKetQuaXetNghiem) {
@@ -1045,6 +1078,53 @@ public class MainFrm extends javax.swing.JFrame {
             taFactsResult.append(xuLyKetQuaXetNghiem());
         }
     }//GEN-LAST:event_bnTuVanActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //gender
+        congender.setSelectedItem("Nam");
+
+        // bieu hien
+        vangdamat.setSelected(false);
+        phannhatmau.setSelected(false);
+        nuoctieusammau.setSelected(false);
+        sotnhe.setSelected(false);
+        chanphune.setSelected(false);
+        bungphinh.setSelected(false);
+        nguadamunnhot.setSelected(false);
+        dautucgan.setSelected(false);
+        metmoichanan.setSelected(false);
+        daubungnonmua.setSelected(false);
+        
+        // tien su
+        tiensugiadinh.setSelected(false);
+        tungtruyenmau.setSelected(false);
+        btnGroupDoUongCon.clearSelection();
+        btnGroupCachThucUong.clearSelection();
+        btnGroupThoiGianUong.clearSelection();
+        selectKhongXetNghiem.setSelected(true);
+        
+        //xet nghiem
+        coKetQuaXetNghiem = false;
+        xn1.setText("");
+        xn2.setText("");
+        xn4.setText("");
+        xn5.setText("");
+        fbE.setText("");
+        fbCAP.setText("");
+        xn6.setSelectedItem("-");
+        xn7.setSelectedItem("-");
+        xn8.setSelectedItem("-");
+        xn9.setSelectedItem("-");
+        xn10.setSelectedItem("-");
+        xn11.setSelectedItem("-");
+        
+        //result
+        taFactsResult.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1100,6 +1180,7 @@ public class MainFrm extends javax.swing.JFrame {
     private javax.swing.JCheckBox dautucgan;
     private javax.swing.JTextField fbCAP;
     private javax.swing.JTextField fbE;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
