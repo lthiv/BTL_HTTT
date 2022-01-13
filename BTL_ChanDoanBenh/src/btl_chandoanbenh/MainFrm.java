@@ -54,14 +54,6 @@ public class MainFrm extends javax.swing.JFrame {
         ruou5.setEnabled(true);
     }
 
-//    void showAllRule() {
-//        rulesListInput = IOFile.readFromFile("rules.csv");
-//        listModel = new DefaultListModel();
-//        for (String item : rulesListInput) {
-//            listModel.addElement(item);
-//        }
-//        jList1.setModel(listModel);
-//    }
     // bieu hien nguoi dung chon
     String convertSelectionToString() {
         String facts = "";
@@ -106,6 +98,7 @@ public class MainFrm extends javax.swing.JFrame {
             return tempFacts;
         }
         return facts;
+
     }
 
     //tien su nguoi dung chon
@@ -412,9 +405,16 @@ public class MainFrm extends javax.swing.JFrame {
             totalRestuls += " " + viem_gan_b;
         } else if (!viem_gan_c.equals("")) {
             totalRestuls += " " + viem_gan_c;
-        } else if (!astVal.equals("Binh thuong") || !altVal.equalsIgnoreCase("Binh thuong")
-                || !albuminVal.equalsIgnoreCase("Binh thuong") || !bilTTVal.equalsIgnoreCase("Binh thuong")) {
-            totalRestuls += " Gan hoạt động bình thường, tuy nhiên các chỉ số cho thấy gan đang có dấu hiệu tổn thương, cần theo dõi thêm";
+        } else if (!astVal.equals("Binh thuong") || !altVal.equalsIgnoreCase("Binh thuong")) {
+            if (astVal.equalsIgnoreCase("Tang nhe")) {
+                totalRestuls += " Nghi ngờ viêm gan virus cấp, cần theo dõi thêm";
+            } else if (astVal.equalsIgnoreCase("Tang vua")) {
+                totalRestuls += " Nghi ngờ gan nhiễm mỡ, cần theo dõi thêm";
+            } else if (astVal.equalsIgnoreCase("Tang cao") || (float)(2.0 * ast / alt) >= 2.0) {
+                totalRestuls += " Nghi ngờ xơ gan, cần theo dõi thêm";
+            }
+        } else if (!bilTTVal.equalsIgnoreCase("Binh thuong") || !albuminVal.equalsIgnoreCase("Binh thuong")) {
+            totalRestuls += " Nghi ngờ xơ gan, cần theo dõi thêm";
         } else {
             totalRestuls += " Gan hoạt động bình thường";
         }
@@ -1042,7 +1042,7 @@ public class MainFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_ruou5ActionPerformed
 
     private void ruou4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou4ActionPerformed
-        ruou4.setActionCommand("Lien tuc (4-5 lan/ tuan)");
+        ruou4.setActionCommand("Lien tuc (4-5 lan/tuan)");
     }//GEN-LAST:event_ruou4ActionPerformed
 
     private void ruou3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruou3ActionPerformed
@@ -1059,6 +1059,7 @@ public class MainFrm extends javax.swing.JFrame {
 
     private void bnTuVanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnTuVanActionPerformed
         // lam sang
+
         String facts = "";
         String tiensu = "";
         
