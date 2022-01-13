@@ -8,9 +8,11 @@ package btl_chandoanbenh;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import utils.IOFile;
 
 /**
@@ -18,32 +20,32 @@ import utils.IOFile;
  * @author Admin 88
  */
 public class MainFrm extends javax.swing.JFrame {
-
+    
     ArrayList<String> rulesListInput;
     ArrayList<String> listBieuHien;
     String factsResult;
-
+    
     boolean coKetQuaXetNghiem = false;
     DefaultListModel listModel;
-
+    
     public MainFrm() {
         initComponents();
         listModel = new DefaultListModel();
         rulesListInput = IOFile.readFromFile("tiensubenh.txt");
         listBieuHien = IOFile.readFromFile("bieuhienbenh.txt");
     }
-
+    
     void disableGroupUongCon() {
         btnGroupThoiGianUong.clearSelection();
         btnGroupCachThucUong.clearSelection();
-
+        
         ruou1.setEnabled(false);
         ruou2.setEnabled(false);
         ruou3.setEnabled(false);
         ruou4.setEnabled(false);
         ruou5.setEnabled(false);
     }
-
+    
     void enableGroupUongCon() {
         ruou1.setEnabled(true);
         ruou2.setEnabled(true);
@@ -63,7 +65,7 @@ public class MainFrm extends javax.swing.JFrame {
     // bieu hien nguoi dung chon
     String convertSelectionToString() {
         String facts = "";
-
+        
         String gender = congender.getSelectedItem().toString();
 
         // bieu hien
@@ -97,7 +99,7 @@ public class MainFrm extends javax.swing.JFrame {
         if (dautucgan.isSelected()) {
             facts += dautucgan.getActionCommand() + ",";
         }
-
+        
         int ind = facts.lastIndexOf(",");
         String tempFacts = facts.substring(0, ind);
         return tempFacts;
@@ -112,16 +114,16 @@ public class MainFrm extends javax.swing.JFrame {
         if (tungtruyenmau.isSelected()) {
             tiensu += tungtruyenmau.getActionCommand() + ",";
         }
-
+        
         if (btnGroupDoUongCon.getSelection() != null) {
             System.out.println(btnGroupDoUongCon.getSelection().getActionCommand());
             tiensu += "Su dung do uong co con " + btnGroupDoUongCon.getSelection().getActionCommand() + ",";
         }
-
+        
         if (btnGroupThoiGianUong.getSelection() != null) {
             tiensu += "Thoi gian uong " + btnGroupThoiGianUong.getSelection().getActionCommand() + ",";
         }
-
+        
         if (btnGroupCachThucUong.getSelection() != null) {
             tiensu += "Cach thuc uong " + btnGroupCachThucUong.getSelection().getActionCommand() + ",";
         }
@@ -133,7 +135,7 @@ public class MainFrm extends javax.swing.JFrame {
     // ket qua xet nghiem
     String xuLyKetQuaXetNghiem() {
         String facts = "";
-
+        
         String gender = congender.getSelectedItem().toString();
 
         // xet nghiem
@@ -147,19 +149,81 @@ public class MainFrm extends javax.swing.JFrame {
         String hbeag = xn9.getSelectedItem().toString();
         String antihcv = xn10.getSelectedItem().toString();
         String hcvrna = xn11.getSelectedItem().toString();
-
+        
         float ast, alt, bilTT, albumin, fiboE, fiboCAP;
-
+        
+        // bat ngoai le
         try {
             ast = Float.parseFloat(astVal);
-            alt = Float.parseFloat(altVal);
-            bilTT = Float.parseFloat(bilTTVal);
-            albumin = Float.parseFloat(albuminVal);
-            fiboE = Float.parseFloat(fbE.getText().trim());
-            fiboCAP = Float.parseFloat(fbCAP.getText().trim());
-
+            if (ast < 0) {
+                throw new InputMismatchException();
+            }
         } catch (NumberFormatException e) {
-            return "\nThông tin xét nghiệm phải nhập đủ và đúng định dạng";
+            JOptionPane.showMessageDialog(null, "Giá trị AST phải nhập ở dạng số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        } catch (InputMismatchException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị AST phải lớn hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        try {
+            alt = Float.parseFloat(altVal);
+            if (alt < 0) {
+                throw new InputMismatchException();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị ALT phải nhập ở dạng số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        } catch (InputMismatchException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị ALT phải lớn hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        try {
+            bilTT = Float.parseFloat(bilTTVal);
+            if (bilTT < 0) {
+                throw new InputMismatchException();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị Bilirubin TT phải nhập ở dạng số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        } catch (InputMismatchException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị Bilirubin TT phải lớn hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        try {
+            albumin = Float.parseFloat(albuminVal);
+            if (albumin < 0) {
+                throw new InputMismatchException();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị Albumin phải nhập ở dạng số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        } catch (InputMismatchException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị Albumin phải lớn hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        try {
+            fiboE = Float.parseFloat(fbE.getText().trim());
+            if (fiboE < 0) {
+                throw new InputMismatchException();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị Fibroscan E phải nhập ở dạng số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        } catch (InputMismatchException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị Fibroscan E phải lớn hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        }
+        try {
+            fiboCAP = Float.parseFloat(fbCAP.getText().trim());
+            if (fiboCAP < 0) {
+                throw new InputMismatchException();
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị Fibroscan CAP phải nhập ở dạng số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
+        } catch (InputMismatchException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị Fibroscan CAP phải lớn hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return "";
         }
 
         // alt
@@ -267,7 +331,7 @@ public class MainFrm extends javax.swing.JFrame {
         if (!gan_nhiem_mo.equals("")) {
             if (btnCoUongCon.isSelected()) {
                 facts += " do sử dụng rượu";
-
+                
                 if (!astVal.equals("Binh thuong") && (float) (1.0 * ast / alt) > 2.0) {
                     facts += "\n- Viêm gan do rượu";
                 }
@@ -314,7 +378,7 @@ public class MainFrm extends javax.swing.JFrame {
             xo_gan += "\n- Xơ gan do rượu";
             f4 = true;
         }
-
+        
         if (f4 && metmoichanan.isSelected()) {
             xo_gan += "\n- Xơ gan còn bù";
         } else if (f4 && bungphinh.isSelected() && chanphune.isSelected() && albuminVal.equalsIgnoreCase("Thap")) {
@@ -322,31 +386,34 @@ public class MainFrm extends javax.swing.JFrame {
         } else if (f4 && vangdamat.isSelected() && nuoctieusammau.isSelected() && bilTTVal.equalsIgnoreCase("Cao")) {
             xo_gan += "\n- Xơ gan cổ chướng";
         }
-
+        
         facts += xo_gan;
-
+        
         String totalRestuls = "\nKết luận:";
         if (f4) {
             totalRestuls += " Gan bị xơ giai đoạn f4";
         } else if (f3) {
             totalRestuls += " Gan bị xơ hoá giai đoạn f3";
-        } else if(f2){
+        } else if (f2) {
             totalRestuls += " Gan bị xơ hoá giai đoạn f2";
-        } else if(f1){
+        } else if (f1) {
             totalRestuls += " Gan bị xơ hoá giai đoạn f1";
-        } else if(!gan_nhiem_mo.equals("")){
+        } else if (!gan_nhiem_mo.equals("")) {
             totalRestuls += " Gan bị nhiễm mỡ giai đoạn " + gan_nhiem_mo;
-        } else if(!viem_gan_b.equals("")){
+        } else if (!viem_gan_b.equals("")) {
             totalRestuls += " " + viem_gan_b;
-        } else if(!viem_gan_c.equals("")){
+        } else if (!viem_gan_c.equals("")) {
             totalRestuls += " " + viem_gan_c;
+        } else if (!astVal.equals("Binh thuong") || !altVal.equalsIgnoreCase("Binh thuong") 
+                || !albuminVal.equalsIgnoreCase("Binh thuong") || !bilTTVal.equalsIgnoreCase("Binh thuong")) {
+            totalRestuls += " Gan hoạt động bình thường, tuy nhiên các chỉ số cho thấy gan đang có dấu hiệu tổn thương, cần theo dõi thêm";
         } else {
             totalRestuls += " Gan hoạt động bình thường";
         }
-
+        
         return facts + totalRestuls;
     }
-
+    
     void compareRules(String facts, String tiensu) {
 //        System.out.println(facts);
         taFactsResult.setText("Kết quả lâm sàng: ");
@@ -372,10 +439,10 @@ public class MainFrm extends javax.swing.JFrame {
                 }
             }
         }
-
+        
         taFactsResult.append("Nhập thêm thông tin để tư vấn");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
