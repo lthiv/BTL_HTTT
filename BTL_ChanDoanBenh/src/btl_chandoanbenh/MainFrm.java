@@ -231,13 +231,13 @@ public class MainFrm extends javax.swing.JFrame {
         if ((alt < 19.0 && gender.equalsIgnoreCase("Nu")) || (alt < 30.0 && gender.equalsIgnoreCase("Nam")) || (alt < 40.0 && gender.equalsIgnoreCase("Tre em"))) {
             altVal = "Binh thuong";
         }
-        if (alt < 100.0) {
+        else if (alt < 100.0) {
             altVal = "Tang nhe";
         }
-        if (alt < 300.0) {
+        else if (alt < 300.0) {
             altVal = "Tang vua";
         }
-        if (alt >= 300) {
+        else if (alt >= 300) {
             altVal = "Tang cao";
         }
 
@@ -245,13 +245,13 @@ public class MainFrm extends javax.swing.JFrame {
         if ((ast < 35.0 && gender.equalsIgnoreCase("Nu")) || (ast < 50.0 && gender.equalsIgnoreCase("Nam")) || (ast < 60.0 && gender.equalsIgnoreCase("Tre em"))) {
             astVal = "Binh thuong";
         }
-        if (ast < 100.0) {
+        else if (ast < 100.0) {
             astVal = "Tang nhe";
         }
-        if (ast < 300.0) {
+        else if (ast < 300.0) {
             astVal = "Tang vua";
         }
-        if (ast >= 300) {
+        else if (ast >= 300) {
             astVal = "Tang cao";
         }
 
@@ -267,7 +267,7 @@ public class MainFrm extends javax.swing.JFrame {
         if (bilTT < 0.4) {
             bilTTVal = "Binh thuong";
         }
-        if (bilTT >= 0.4) {
+        else if (bilTT >= 0.4) {
             bilTTVal = "Cao";
         }
 
